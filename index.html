@@ -5114,21 +5114,24 @@ function initializeDanglingHeart() {
                 }
                 
 // In the performCochranArmitageTest() function:
-// Calculate z-statistic
+// Calculate z-statistic with proper sign handling
 let z;
 if (testType === 'one.sided.decreasing') {
-    // For one-sided decreasing test, we need to check the sign of numerator
+    // For one-sided decreasing test: we want negative z for decreasing trends
     if (numerator < 0) {
-        z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
+        // Decreasing trend: numerator is negative, get negative z
+        z = (-Math.abs(numerator) - c) / Math.sqrt(variance_term);
     } else {
-        z = (numerator + c) / Math.sqrt(variance_term);
+        // Increasing trend when we expect decreasing: positive z
+        z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
     }
 } else if (testType === 'one.sided.increasing') {
+    // For one-sided increasing test: we want positive z for increasing trends
     z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
 } else {
+    // Two-sided test: absolute value
     z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
 }
-
 // Calculate p-value
 let p_value;
 const normalCDF = (z) => {
