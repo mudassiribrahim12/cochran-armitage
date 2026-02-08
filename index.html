@@ -272,22 +272,6 @@ li {
     opacity: 0.8 !important;
 }
 
-/* Make chart labels black */
-.chart-subtitle {
-    color: var(--text) !important;
-    opacity: 0.8 !important;
-}
-
-/* Make y-axis labels black */
-.y-label {
-    color: var(--text) !important;
-}
-
-/* Make legend text black */
-.legend-item span {
-    color: var(--text) !important;
-}
-
         /* Smooth theme transition */
         body {
             transition: background-color 0.3s ease, color 0.3s ease;
@@ -1551,15 +1535,6 @@ li {
             margin: 2.25rem 0;
             height: 500px;
             position: relative;
-        }
-
-        .chart-actions {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            z-index: 10;
-            display: flex;
-            gap: 0.75rem;
         }
 
         /* Results Section */
@@ -3157,6 +3132,9 @@ console.log('P-value:', results.pValue);
         function initializeApp() {
             console.log('Initializing CATrend Analyzer...');
             
+            // Register Chart.js datalabels plugin
+            Chart.register(ChartDataLabels);
+            
             // Set current year
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             
@@ -4192,22 +4170,22 @@ console.log('P-value:', results.pValue);
                             </div>
                         </div>
                         
-                        <!-- Visualization -->
+                                         <!-- Visualization -->
                         <div style="margin-top: 2.25rem;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                                 <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 0.875rem;">
                                     <i class="fas fa-chart-bar"></i>
                                     Data Visualization
                                 </h3>
-                                <div class="chart-actions">
-                                    <button class="btn" id="downloadChartBtn">
-                                        <i class="fas fa-download"></i>
-                                        Download Chart
-                                    </button>
-                                </div>
                             </div>
                             <div class="chart-container">
                                 <canvas id="analysisChart"></canvas>
+                            </div>
+                            <div style="text-align: center; margin-top: 1.5rem;">
+                                <button class="btn-primary" id="downloadChartBtn" style="padding: 1rem 2rem; font-size: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-download"></i>
+                                    Download Chart as Image
+                                </button>
                             </div>
                             <p style="text-align: center; color: var(--secondary); margin-top: 1.25rem; font-size: 1rem; font-weight: 500;">
                                 <i class="fas fa-info-circle"></i> 
@@ -4311,39 +4289,39 @@ console.log('P-value:', results.pValue);
                 
                 // Prepare data
                 const labels = currentData.cols;
-                const datasets = currentData.rows.map((row, rowIndex) => {
-                    const data = currentData.data[rowIndex];
-                    
-                    // Generate labels based on selected options
-                    const dataLabels = data.map((value, colIndex) => {
-                        let label = '';
-                        if (showCounts) {
-                            label += value;
-                        }
-                        if (showRowPercent && showCounts) {
-                            label += '\n(' + results.rowPercentages[rowIndex][colIndex] + '%)';
-                        } else if (showRowPercent) {
-                            label += results.rowPercentages[rowIndex][colIndex] + '%';
-                        }
-                        if (showColPercent && showCounts) {
-                            label += '\n[' + results.colPercentages[rowIndex][colIndex] + '%]';
-                        } else if (showColPercent) {
-                            label += '[' + results.colPercentages[rowIndex][colIndex] + '%]';
-                        }
-                        return label.trim();
-                    });
-                    
-                    return {
-                        label: row,
-                        data: data,
-                        backgroundColor: rowIndex === 0 ? 
-                            'rgba(52, 168, 83, 0.7)' : 'rgba(234, 67, 53, 0.7)',
-                        borderColor: rowIndex === 0 ? 
-                            'rgba(52, 168, 83, 1)' : 'rgba(234, 67, 53, 1)',
-                        borderWidth: 2
-                    };
-                });
-                
+                          const datasets = currentData.rows.map((row, rowIndex) => {
+                        const data = currentData.data[rowIndex];
+                        
+                        // Generate labels based on selected options
+                        const dataLabels = data.map((value, colIndex) => {
+                            let label = '';
+                            if (showCounts) {
+                                label += value;
+                            }
+                            if (showRowPercent && showCounts) {
+                                label += '\n(' + results.rowPercentages[rowIndex][colIndex] + '%)';
+                            } else if (showRowPercent) {
+                                label += results.rowPercentages[rowIndex][colIndex] + '%';
+                            }
+                            if (showColPercent && showCounts) {
+                                label += '\n[' + results.colPercentages[rowIndex][colIndex] + '%]';
+                            } else if (showColPercent) {
+                                label += '[' + results.colPercentages[rowIndex][colIndex] + '%]';
+                            }
+                            return label.trim();
+                        });
+                        
+                        return {
+                            label: row,
+                            data: data,
+                            dataLabels: dataLabels, // Store labels for datalabels plugin
+                            backgroundColor: rowIndex === 0 ? 
+                                'rgba(52, 168, 83, 0.7)' : 'rgba(234, 67, 53, 0.7)',
+                            borderColor: rowIndex === 0 ? 
+                                'rgba(52, 168, 83, 1)' : 'rgba(234, 67, 53, 1)',
+                            borderWidth: 2
+                        };
+                    });                
                 // Create new chart
                 chartInstance = new Chart(ctx, {
                     type: 'bar',
@@ -4354,7 +4332,7 @@ console.log('P-value:', results.pValue);
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: {
+                                         plugins: {
                             title: {
                                 display: true,
                                 text: 'Frequency Distribution with Percentages',
@@ -4378,10 +4356,19 @@ console.log('P-value:', results.pValue);
                             },
                             tooltip: {
                                 backgroundColor: getComputedStyle(document.body).getPropertyValue('--card-bg'),
-                                titleColor: getComputedStyle(document.body).getPropertyValue('--text'),
-                                bodyColor: getComputedStyle(document.body).getPropertyValue('--text'),
                                 borderColor: getComputedStyle(document.body).getPropertyValue('--border'),
                                 borderWidth: 1,
+                                padding: 12,
+                                titleFont: {
+                                    size: 14,
+                                    family: 'Inter',
+                                    weight: '600'
+                                },
+                                bodyFont: {
+                                    size: 13,
+                                    family: 'Inter',
+                                    weight: '500'
+                                },
                                 callbacks: {
                                     label: function(context) {
                                         let label = context.dataset.label || '';
@@ -4403,9 +4390,34 @@ console.log('P-value:', results.pValue);
                                         return label;
                                     }
                                 }
+                            },
+                            datalabels: {
+                                display: true,
+                                color: function(context) {
+                                    // Make labels white on dark bars, black on light bars
+                                    const dataset = context.dataset;
+                                    const backgroundColor = dataset.backgroundColor;
+                                    // Check if background is dark
+                                    if (backgroundColor === 'rgba(52, 168, 83, 0.7)' || backgroundColor === 'rgba(234, 67, 53, 0.7)') {
+                                        return '#ffffff'; // White text for colored bars
+                                    }
+                                    return '#000000'; // Black text for light bars
+                                },
+                                font: {
+                                    weight: '600',
+                                    size: 12
+                                },
+                                formatter: function(value, context) {
+                                    // Get the label from our pre-calculated dataLabels
+                                    const labels = context.chart.data.datasets[context.datasetIndex].dataLabels;
+                                    return labels ? labels[context.dataIndex] : value;
+                                },
+                                anchor: 'center',
+                                align: 'center'
                             }
                         },
-                        scales: {
+                 
+                                         scales: {
                             x: {
                                 title: {
                                     display: true,
@@ -4452,10 +4464,22 @@ console.log('P-value:', results.pValue);
             // Download chart as image
             function downloadChart() {
                 if (chartInstance) {
+                    // First, temporarily disable animation for clean snapshot
+                    const originalAnimation = chartInstance.options.animation;
+                    chartInstance.options.animation = false;
+                    
+                    // Force a chart update to render all labels
+                    chartInstance.update('none');
+                    
+                    // Create download link
                     const link = document.createElement('a');
                     link.download = 'catrend-analysis-chart.png';
                     link.href = chartInstance.toBase64Image();
                     link.click();
+                    
+                    // Restore animation setting
+                    chartInstance.options.animation = originalAnimation;
+                    chartInstance.update('none');
                 }
             }
 
