@@ -5265,51 +5265,40 @@ if (testType === 'two.sided') {
                             Analysis Results
                         </h2>
                         
-                        <div class="enhanced-results">
-                            <div class="enhanced-stat-card">
-                                <div class="enhanced-stat-card-title">
-                                    <i class="fas fa-calculator"></i>
-                                    Z-statistic
-                                </div>
-                                <div class="enhanced-stat-value highlight">${results.z.toFixed(4)}</div>
-                                <div class="enhanced-stat-description">
-                                    Standard normal deviate for trend test
-                                </div>
-                            </div>
-                            
-                            <div class="enhanced-stat-card">
-                                <div class="enhanced-stat-card-title">
-                                    <i class="fas fa-sigma"></i>
-                                    Chi-square (χ²)
-                                </div>
-                                <div class="enhanced-stat-value">${results.chi_square.toFixed(4)}</div>
-                                <div class="enhanced-stat-description">
-                                    Square of Z-statistic (df = 1)
-                                </div>
-                            </div>
-                            
-                            <div class="enhanced-stat-card">
-                                <div class="enhanced-stat-card-title">
-                                    <i class="fas fa-percentage"></i>
-                                    P-value
-                                </div>
-                                <div class="enhanced-stat-value highlight">${pValueDisplay}</div>
-                                <div class="enhanced-stat-description">
-                                    Significance of trend (${testTypeText})
-                                </div>
-                            </div>
-                            
-                            <div class="enhanced-stat-card">
-                                <div class="enhanced-stat-card-title">
-                                    <i class="fas fa-project-diagram"></i>
-                                    Degrees of Freedom
-                                </div>
-                                <div class="enhanced-stat-value">${results.degreesOfFreedom}</div>
-                                <div class="enhanced-stat-description">
-                                    (Rows - 1) × (Columns - 1)
-                                </div>
-                            </div>
-                        </div>
+                       <div class="enhanced-results">
+    <div class="enhanced-stat-card">
+        <div class="enhanced-stat-card-title">
+            <i class="fas fa-calculator"></i>
+            Z-statistic
+        </div>
+        <div class="enhanced-stat-value highlight">${results.z.toFixed(4)}</div>
+        <div class="enhanced-stat-description">
+            Standard normal deviate for trend test
+        </div>
+    </div>
+    
+    <div class="enhanced-stat-card">
+        <div class="enhanced-stat-card-title">
+            <i class="fas fa-sigma"></i>
+            Trend Chi-square (χ²)
+        </div>
+        <div class="enhanced-stat-value">${results.chi_square.toFixed(4)}</div>
+        <div class="enhanced-stat-description">
+            For linear trend<br><strong>df = 1</strong>
+        </div>
+    </div>
+    
+    <div class="enhanced-stat-card">
+        <div class="enhanced-stat-card-title">
+            <i class="fas fa-percentage"></i>
+            Trend P-value
+        </div>
+        <div class="enhanced-stat-value highlight">${pValueDisplay}</div>
+        <div class="enhanced-stat-description">
+            Cochran-Armitage test (${testTypeText})
+        </div>
+    </div>
+</div>
                         
                         <!-- Chi-square Test of Association Highlight -->
                         <div class="chi-square-highlight">
@@ -6214,10 +6203,14 @@ document.getElementById('fullscreenModal')?.addEventListener('click', function(e
                                     <td>P-value (Association)</td>
                                     <td>${results.chi_square_association.pValue.toFixed(6)}</td>
                                 </tr>
-                                <tr>
-                                    <td>Degrees of Freedom</td>
-                                    <td>${results.degreesOfFreedom}</td>
-                                </tr>
+<tr>
+    <td>Degrees of Freedom (Trend)</td>
+    <td>1</td>
+</tr>
+<tr>
+    <td>Degrees of Freedom (Association)</td>
+    <td>${results.chi_square_association.df}</td>
+</tr>
                                 <tr>
                                     <td>Sample Size (N)</td>
                                     <td>${results.N}</td>
@@ -6310,7 +6303,8 @@ document.getElementById('fullscreenModal')?.addEventListener('click', function(e
                 excelContent += `P-value (Trend),${results.p_value.toFixed(6)}\n`;
                 excelContent += `Chi-square (Association),${results.chi_square_association.statistic.toFixed(4)}\n`;
                 excelContent += `P-value (Association),${results.chi_square_association.pValue.toFixed(6)}\n`;
-                excelContent += `Degrees of Freedom,${results.degreesOfFreedom}\n`;
+excelContent += `Degrees of Freedom (Trend),1\n`;
+excelContent += `Degrees of Freedom (Association),${results.chi_square_association.df}\n`;
                 excelContent += `Sample Size (N),${results.N}\n`;
                 excelContent += `Number of Groups (k),${results.k}\n`;
                 
