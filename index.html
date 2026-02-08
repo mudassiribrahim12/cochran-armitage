@@ -672,6 +672,82 @@ li {
     box-shadow: 0 6px 16px rgba(26, 115, 232, 0.3);
 }
 
+/* Dangling Heart Animation */
+.dangling-heart {
+    display: inline-block;
+    animation: dangle 2s ease-in-out infinite;
+    transform-origin: top center;
+    position: relative;
+    cursor: pointer;
+    color: #e25555;
+}
+
+@keyframes dangle {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(-10deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+}
+
+.dangling-heart:hover {
+    animation: dangleFast 0.5s ease-in-out infinite;
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+@keyframes dangleFast {
+    0%, 100% {
+        transform: rotate(0deg) scale(1.2);
+    }
+    25% {
+        transform: rotate(15deg) scale(1.2);
+    }
+    50% {
+        transform: rotate(-15deg) scale(1.2);
+    }
+    75% {
+        transform: rotate(10deg) scale(1.2);
+    }
+}
+
+/* Add a subtle pulse effect on hover */
+.dangling-heart::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, rgba(255, 107, 107, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
+.dangling-heart:hover::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Mobile adjustment for the dangling heart */
+@media (max-width: 768px) {
+    .dangling-heart {
+        font-size: 1.1em;
+    }
+    
+    .copyright p {
+        line-height: 1.6;
+    }
+}
+
 /* Add shine effect for primary button */
 .btn-primary::after {
     content: '';
@@ -1823,6 +1899,49 @@ li {
             color: var(--text);
             font-weight: 600;
         }
+        
+        /* Add to the style section */
+.fullscreen-control-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.fullscreen-control-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+    transition: left 0.5s ease;
+}
+
+.fullscreen-control-btn:hover::after {
+    left: 100%;
+}
+
+#closeFullscreenBtn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+    transition: left 0.5s ease;
+    border-radius: 6px;
+}
+
+#closeFullscreenBtn:hover::after {
+    left: 100%;
+}
 
         /* Alert Messages */
         .alert {
@@ -1891,6 +2010,43 @@ li {
                 rgba(255, 255, 255, 0.2), 
                 transparent);
         }
+        
+        /* Fullscreen Modal Styles */
+#fullscreenModal {
+    backdrop-filter: none;
+    transition: opacity 0.3s ease;
+    background: white !important;
+}
+
+#fullscreenModal canvas {
+    width: 100% !important;
+    height: 100% !important;
+    cursor: move;
+    transition: transform 0.2s ease;
+    background: white !important;
+}
+
+.fullscreen-control-btn:hover {
+    background: var(--primary-dark) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4) !important;
+}
+
+.fullscreen-control-btn:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3) !important;
+}
+
+#closeFullscreenBtn:hover {
+    background: var(--primary-dark) !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4) !important;
+}
+
+/* Ensure chart background is white in fullscreen */
+#fullscreenChart {
+    background-color: white !important;
+}
 
         /* Tutorial Steps */
         .tutorial-steps {
@@ -2085,6 +2241,40 @@ li {
             .hero-title {
                 font-size: 2.5rem;
             }
+            
+            /* Mobile hamburger menu */
+            .main-nav {
+                position: fixed;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: var(--card-bg);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+                z-index: 999;
+            }
+            
+            .main-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .nav-link {
+                padding: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+            
+            .nav-link.active::after {
+                display: none;
+            }
+            
+            .hamburger-menu {
+                display: flex !important;
+            }
         }
 
         @media (max-width: 768px) {
@@ -2094,10 +2284,6 @@ li {
             
             .header-container {
                 padding: 0 1rem;
-            }
-            
-            .main-nav {
-                display: none;
             }
             
             .hero-container {
@@ -2249,6 +2435,371 @@ li {
                 padding: 0 2rem;
             }
         }
+        
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1000;
+        }
+        
+        .hamburger-menu span {
+            width: 100%;
+            height: 3px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger-menu.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .hamburger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger-menu.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        /* Enhanced Table Styles */
+        .table-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+        
+        .table-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .table-section-title i {
+            color: var(--primary);
+        }
+        
+        .table-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .table-card {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        
+        .table-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .table-card-content {
+            font-size: 0.95rem;
+            color: var(--secondary);
+            line-height: 1.6;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .table-action-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .table-action-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .table-action-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        
+        .table-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        /* Enhanced Results Export */
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .export-option {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+        
+        .export-option:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .export-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .export-option-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .export-option-desc {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Chi-square Test Highlight */
+        .chi-square-highlight {
+            background: linear-gradient(135deg, rgba(138, 180, 248, 0.1), rgba(234, 67, 53, 0.1));
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+        
+        .chi-square-highlight-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .chi-square-highlight-title i {
+            color: var(--warning);
+        }
+        
+        .chi-square-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--warning);
+            margin-right: 0.5rem;
+        }
+        
+        .chi-square-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .chi-square-comparison {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+        }
+        
+        /* Expected Cell Counts Table */
+        .expected-table-container {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+        }
+        
+        .expected-table-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .percentage-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        .percentage-table th {
+            background: var(--card-bg);
+            color: var(--secondary);
+            font-weight: 600;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .percentage-table td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        
+        .percentage-table .percentage-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Enhanced Statistical Results */
+        .enhanced-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .enhanced-stat-card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .enhanced-stat-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .enhanced-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+        
+        .enhanced-stat-value.highlight {
+            color: var(--primary);
+        }
+        
+        .enhanced-stat-description {
+            font-size: 0.85rem;
+            color: var(--secondary);
+            line-height: 1.4;
+        }
+        
+        /* Test Configuration Options */
+        .test-configuration {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+        }
+        
+        .test-config-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .test-config-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .test-config-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .test-config-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .test-config-option label {
+            font-weight: 500;
+            color: var(--text);
+            cursor: pointer;
+        }
+        
+        .test-config-option .config-help {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            margin-left: 0.5rem;
+        }
+        
+        /* Responsive adjustments for new elements */
+        @media (max-width: 768px) {
+            .table-grid,
+            .export-options,
+            .enhanced-results {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-actions {
+                flex-direction: column;
+            }
+            
+            .table-action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .percentage-table th,
+            .percentage-table td {
+                padding: 0.75rem;
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2275,13 +2826,18 @@ li {
         <header class="app-header">
             <div class="header-container">
                 <div class="header-left">
+                    <button class="hamburger-menu" id="hamburgerMenu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                     <div class="logo" onclick="showSection('home')">
                         <div class="logo-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
                         <span class="logo-text">CATrend Analyzer</span>
                     </div>
-                    <nav class="main-nav">
+                    <nav class="main-nav" id="mainNav">
                         <a href="#home" class="nav-link active" onclick="showSection('home'); return false;">Home</a>
                         <a href="#analysis" class="nav-link" onclick="showSection('analysis'); return false;">Analysis</a>
                         <a href="#documentation" class="nav-link" onclick="showSection('documentation'); return false;">Documentation</a>
@@ -3006,16 +3562,19 @@ function calculateCochranArmitage(data, options) {
         }
     }
     
+    // Calculate observed response probabilities
+    const pj = yj.map((y, idx) => nj[idx] > 0 ? y / nj[idx] : 0);
+    
     // Calculate weighted mean of scores
     const weightedMean = columnTotals.reduce((sum, n, idx) => 
         sum + n * scores[idx], 0) / N;
     
-    // Calculate overall success proportion
-    const overallProportion = successCounts.reduce((a, b) => a + b, 0) / N;
-    
-    // Calculate numerator
+    // Calculate numerator: Σyj(xj - x̄)
     const numerator = successCounts.reduce((sum, y, idx) => 
         sum + y * (scores[idx] - weightedMean), 0);
+    
+    // Calculate overall proportion
+    const overallProportion = successCounts.reduce((a, b) => a + b, 0) / N;
     
     // Calculate variance term
     const varianceTerm = overallProportion * (1 - overallProportion) * 
@@ -3029,16 +3588,21 @@ function calculateCochranArmitage(data, options) {
     // Calculate p-value
     const pValue = calculatePValue(zStatistic, testType);
     
+    // Calculate chi-square for association
+    const chiSquareAssociation = calculateChiSquareAssociation(data);
+    
     return {
         zStatistic,
         chiSquare: zStatistic * zStatistic,
+        chiSquareAssociation,
         pValue,
         N,
         k,
         weightedMean,
         overallProportion,
         columnTotals,
-        successCounts
+        successCounts,
+        degreesOfFreedom: (rows.length - 1) * (cols.length - 1)
     };
 }
                     </div>
@@ -3145,14 +3709,14 @@ Feel free to reach out through any of the following channels:
             </section>
         </main>
 
-        <!-- Footer -->
+ <!-- Footer -->
 <footer class="main-footer">
     <div class="footer-content">
         <div class="copyright">
             <p>Copyright © <span id="currentYear">2026</span> CATrend Analyzer – Open-Source Cochran–Armitage Trend Test (CATT) Web-Based Software. All rights reserved.</p>
             <p style="margin-top: 0.75rem; font-size: 0.875rem;">
                 Version 1.0 | 
-                Built with ❤️ from Ghana by 
+                Built with <span class="dangling-heart">❤️</span> from Ghana by 
                 <a href="https://mudasiribrahim.com" target="_blank" rel="noopener noreferrer" style="color: var(--text); text-decoration: underline;">
                     Mudasir Mohammed Ibrahim
                 </a> | 
@@ -3217,7 +3781,7 @@ Feel free to reach out through any of the following channels:
             }
         };
         
-                // ============================================
+        // ============================================
         // HEADER SCROLL BEHAVIOR - ONLY SHOW AT TOP
         // ============================================
         function initializeHeaderScroll() {
@@ -3281,6 +3845,8 @@ Feel free to reach out through any of the following channels:
             // Initialize theme toggle
             initializeThemeToggle();
             
+            initializeDanglingHeart();
+            
             // Initialize zoom functionality
             initializeZoom();
             
@@ -3296,10 +3862,234 @@ Feel free to reach out through any of the following channels:
             // Initialize header scroll behavior (only shows at top)
             initializeHeaderScroll();
             
+            // Initialize hamburger menu
+            initializeHamburgerMenu();
+            
             // Initialize analysisLoaded flag
             analysisLoaded = false;
             
             console.log('CATrend Analyzer initialized successfully');
+        }
+        
+        function openFullscreenChart() {
+    const modal = document.getElementById('fullscreenModal');
+    const fullscreenCanvas = document.getElementById('fullscreenChart');
+    const ctx = fullscreenCanvas.getContext('2d');
+    
+    // Show modal
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Copy chart data from original chart
+    const originalChart = chartInstance;
+    
+    // Destroy existing fullscreen chart if it exists
+    if (fullscreenChartInstance) {
+        fullscreenChartInstance.destroy();
+    }
+    
+    // Create fullscreen chart with enhanced options and white background
+    fullscreenChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: JSON.parse(JSON.stringify(originalChart.data)), // Deep copy
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            backgroundColor: '#ffffff', // Ensure white background
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Frequency Distribution with Percentages - Full Screen View',
+                    font: {
+                        size: 24,
+                        family: 'Inter',
+                        weight: '700'
+                    },
+                    color: '#000000', // Black text for white background
+                    padding: {
+                        top: 20,
+                        bottom: 30
+                    }
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            family: 'Inter',
+                            size: 18,
+                            weight: '600'
+                        },
+                        color: '#000000', // Black text for white background
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#ffffff', // White background for tooltips
+                    borderColor: '#dadce0', // Light gray border
+                    borderWidth: 2,
+                    padding: 16,
+                    titleFont: {
+                        size: 16,
+                        family: 'Inter',
+                        weight: '600'
+                    },
+                    bodyFont: {
+                        size: 15,
+                        family: 'Inter',
+                        weight: '500'
+                    },
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.y;
+                            
+                            if (showRowPercent) {
+                                const rowIndex = context.datasetIndex;
+                                const colIndex = context.dataIndex;
+                                label += ` (${results.rowPercentages[rowIndex][colIndex]}% of row)`;
+                            }
+                            if (showColPercent) {
+                                const rowIndex = context.datasetIndex;
+                                const colIndex = context.dataIndex;
+                                label += ` [${results.colPercentages[rowIndex][colIndex]}% of column]`;
+                            }
+                            return label;
+                        }
+                    }
+                },
+                datalabels: {
+                    display: true,
+                    color: function(context) {
+                        const dataset = context.dataset;
+                        const backgroundColor = dataset.backgroundColor;
+                        if (backgroundColor === 'rgba(52, 168, 83, 0.7)' || backgroundColor === 'rgba(234, 67, 53, 0.7)') {
+                            return '#ffffff';
+                        }
+                        return '#000000'; // Black text for light bars
+                    },
+                    font: {
+                        weight: '600',
+                        size: 14
+                    },
+                    formatter: function(value, context) {
+                        const labels = context.chart.data.datasets[context.datasetIndex].dataLabels;
+                        return labels ? labels[context.dataIndex] : value;
+                    },
+                    anchor: 'center',
+                    align: 'center'
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Groups',
+                        font: {
+                            family: 'Inter',
+                            size: 20,
+                            weight: '700'
+                        },
+                        color: '#000000', // Black text for white background
+                        padding: { top: 20 }
+                    },
+                    grid: {
+                        color: '#e5e5e5', // Light gray grid lines
+                        lineWidth: 2
+                    },
+                    ticks: {
+                        color: '#000000', // Black text for white background
+                        font: {
+                            size: 16,
+                            weight: '600'
+                        },
+                        padding: 10
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Frequency',
+                        font: {
+                            family: 'Inter',
+                            size: 20,
+                            weight: '700'
+                        },
+                        color: '#000000', // Black text for white background
+                        padding: { bottom: 20 }
+                    },
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0,
+                        color: '#000000', // Black text for white background
+                        font: {
+                            size: 16,
+                            weight: '600'
+                        },
+                        padding: 10
+                    },
+                    grid: {
+                        color: '#e5e5e5', // Light gray grid lines
+                        lineWidth: 2
+                    }
+                }
+            },
+            animation: {
+                duration: 1000,
+                easing: 'easeOutQuart'
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            }
+        }
+    });
+    
+    // Apply initial zoom
+    applyChartZoom();
+}
+
+        // ============================================
+        // HAMBURGER MENU FUNCTIONALITY
+        // ============================================
+        function initializeHamburgerMenu() {
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            const mainNav = document.getElementById('mainNav');
+            
+            if (hamburgerMenu && mainNav) {
+                hamburgerMenu.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    mainNav.classList.toggle('active');
+                    
+                    // Close menu when clicking outside
+                    if (mainNav.classList.contains('active')) {
+                        document.addEventListener('click', closeMenuOnClickOutside);
+                    } else {
+                        document.removeEventListener('click', closeMenuOnClickOutside);
+                    }
+                });
+                
+                // Close menu when clicking a nav link
+                mainNav.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', function() {
+                        hamburgerMenu.classList.remove('active');
+                        mainNav.classList.remove('active');
+                        document.removeEventListener('click', closeMenuOnClickOutside);
+                    });
+                });
+            }
+            
+            function closeMenuOnClickOutside(event) {
+                if (!mainNav.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+                    hamburgerMenu.classList.remove('active');
+                    mainNav.classList.remove('active');
+                    document.removeEventListener('click', closeMenuOnClickOutside);
+                }
+            }
         }
 
         // ============================================
@@ -3615,6 +4405,14 @@ Feel free to reach out through any of the following channels:
                     analysisLoaded = true;
                 }
                 
+                // Close hamburger menu if open
+                const hamburgerMenu = document.getElementById('hamburgerMenu');
+                const mainNav = document.getElementById('mainNav');
+                if (hamburgerMenu && mainNav && hamburgerMenu.classList.contains('active')) {
+                    hamburgerMenu.classList.remove('active');
+                    mainNav.classList.remove('active');
+                }
+                
                 // Scroll to top of section
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -3640,6 +4438,57 @@ Feel free to reach out through any of the following channels:
                 });
             }
         }
+        
+        // Add this to your JavaScript after the main initialization
+function initializeDanglingHeart() {
+    const heart = document.querySelector('.dangling-heart');
+    if (heart) {
+        heart.addEventListener('click', function() {
+            // Add a click animation
+            this.style.transform = 'scale(1.5)';
+            this.style.color = '#ff4444';
+            
+            // Create floating hearts effect
+            for (let i = 0; i < 5; i++) {
+                createFloatingHeart(this);
+            }
+            
+            // Reset after animation
+            setTimeout(() => {
+                this.style.transform = '';
+                this.style.color = '';
+            }, 300);
+        });
+    }
+    
+    function createFloatingHeart(heartElement) {
+        const heart = document.createElement('div');
+        heart.innerHTML = '❤️';
+        heart.style.position = 'fixed';
+        heart.style.left = heartElement.getBoundingClientRect().left + 'px';
+        heart.style.top = heartElement.getBoundingClientRect().top + 'px';
+        heart.style.fontSize = '20px';
+        heart.style.opacity = '1';
+        heart.style.zIndex = '10000';
+        heart.style.pointerEvents = 'none';
+        heart.style.transition = 'all 1s ease-out';
+        
+        document.body.appendChild(heart);
+        
+        // Animate floating up
+        setTimeout(() => {
+            const randomX = Math.random() * 100 - 50;
+            const randomY = -100 - Math.random() * 50;
+            heart.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            heart.style.opacity = '0';
+        }, 10);
+        
+        // Remove after animation
+        setTimeout(() => {
+            document.body.removeChild(heart);
+        }, 1100);
+    }
+}
 
         // ============================================
         // ANALYSIS FUNCTIONS
@@ -3738,70 +4587,70 @@ Feel free to reach out through any of the following channels:
                             </tbody>
                         </table>
                     </div>
-                </div>
-
-                <!-- Analysis Configuration -->
-                <div class="analysis-controls">
-                    <div class="analysis-group">
-                        <h3 class="card-title" style="margin-bottom: 1.5rem;">
-                            <i class="fas fa-cog"></i>
-                            Test Configuration
-                        </h3>
-                        
-                        <div>
-                            <label style="display: block; font-weight: 600; color: var(--text); margin-bottom: 1rem; font-size: 1rem;">
-                                Test Type:
-                            </label>
-                            <div class="radio-group">
-                                <label class="radio-option">
-                                    <input type="radio" name="testType" value="two.sided" checked>
-                                    <span>Two-sided test</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="testType" value="one.sided.increasing">
-                                    <span>One-sided (increasing trend)</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="testType" value="one.sided.decreasing">
-                                    <span>One-sided (decreasing trend)</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-top: 1.75rem;">
-                            <label class="checkbox-option">
-                                <input type="checkbox" id="continuityCorrection">
-                                <span>Apply continuity correction</span>
-                            </label>
-                        </div>
-                    </div>
                     
-                    <div class="analysis-group">
-                        <h3 class="card-title" style="margin-bottom: 1.5rem;">
-                            <i class="fas fa-chart-bar"></i>
-                            Chart Options
-                        </h3>
-                        
-                        <div class="checkbox-group">
-                            <label class="checkbox-option">
-                                <input type="checkbox" id="showCounts" checked>
-                                <span>Show counts on bars</span>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" id="showRowPercent">
-                                <span>Show row percentages</span>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" id="showColPercent" checked>
-                                <span>Show column percentages</span>
-                            </label>
-                        </div>
-                        
-                        <div class="formula-box" style="font-size: 1.125rem; padding: 1.25rem; margin-top: 1.5rem;">
-                            Z = Σ yⱼ(xⱼ - x̄) / √[p̄(1-p̄) Σ nⱼ(xⱼ - x̄)²]
-                        </div>
-                    </div>
-                </div>
+            <!-- Analysis Configuration -->
+<div class="analysis-controls">
+    <div class="analysis-group">
+        <h3 class="card-title" style="margin-bottom: 1.5rem;">
+            <i class="fas fa-cog"></i>
+            Test Configuration
+        </h3>
+        
+        <div class="test-configuration">
+            <div class="test-config-title">
+                <i class="fas fa-sliders-h"></i>
+                Test Type (Default: One-sided Decreasing)
+            </div>
+            <div class="test-config-options">
+                <label class="test-config-option">
+                    <input type="radio" name="testType" value="one.sided.decreasing" checked>
+                    <span>One-sided (decreasing trend) <span class="config-help">- Default</span></span>
+                </label>
+                <label class="test-config-option">
+                    <input type="radio" name="testType" value="one.sided.increasing">
+                    <span>One-sided (increasing trend)</span>
+                </label>
+                <label class="test-config-option">
+                    <input type="radio" name="testType" value="two.sided">
+                    <span>Two-sided test</span>
+                </label>
+            </div>
+        </div>
+        
+        <div style="margin-top: 1.75rem;">
+            <label class="checkbox-option">
+                <input type="checkbox" id="continuityCorrection">
+                <span>Apply continuity correction (recommended for N < 100)</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="analysis-group">
+        <h3 class="card-title" style="margin-bottom: 1.5rem;">
+            <i class="fas fa-chart-bar"></i>
+            Chart Options
+        </h3>
+        
+        <div class="checkbox-group">
+            <label class="checkbox-option">
+                <input type="checkbox" id="showCounts" checked>
+                <span>Show counts on bars</span>
+            </label>
+            <label class="checkbox-option">
+                <input type="checkbox" id="showRowPercent">
+                <span>Show row percentages</span>
+            </label>
+            <label class="checkbox-option">
+                <input type="checkbox" id="showColPercent" checked>
+                <span>Show column percentages</span>
+            </label>
+        </div>
+        
+        <div class="formula-box" style="font-size: 1.125rem; padding: 1.25rem; margin-top: 1.5rem;">
+            Z = Σ yⱼ(xⱼ - x̄) / √[p̄(1-p̄) Σ nⱼ(xⱼ - x̄)²]
+        </div>
+    </div>
+</div>
 
                 <!-- Run Analysis Button -->
                 <div class="run-analysis">
@@ -3875,7 +4724,21 @@ Feel free to reach out through any of the following channels:
                 totalHeader.className = 'total-cell';
                 headerRow.appendChild(totalHeader);
                 
+                // Column percentage header
+                const colPercentHeader = document.createElement('th');
+                colPercentHeader.textContent = 'Col %';
+                colPercentHeader.className = 'total-cell';
+                colPercentHeader.style.fontSize = '0.9em';
+                headerRow.appendChild(colPercentHeader);
+                
                 tableHeader.appendChild(headerRow);
+                
+                // Calculate totals for expected counts
+                const rowTotals = currentData.data.map(row => row.reduce((a, b) => a + b, 0));
+                const colTotals = currentData.cols.map((_, colIndex) => 
+                    currentData.data.reduce((sum, row) => sum + row[colIndex], 0)
+                );
+                const grandTotal = rowTotals.reduce((a, b) => a + b, 0);
                 
                 // Create data rows
                 currentData.rows.forEach((row, rowIndex) => {
@@ -3888,7 +4751,6 @@ Feel free to reach out through any of the following channels:
                     tr.appendChild(rowHeader);
                     
                     // Data cells
-                    let rowTotal = 0;
                     currentData.data[rowIndex].forEach((cell, colIndex) => {
                         const td = document.createElement('td');
                         const input = document.createElement('input');
@@ -3903,15 +4765,23 @@ Feel free to reach out through any of the following channels:
                         });
                         td.appendChild(input);
                         tr.appendChild(td);
-                        rowTotal += cell;
                     });
                     
                     // Row total cell
                     const rowTotalCell = document.createElement('td');
                     rowTotalCell.className = 'total-cell';
-                    rowTotalCell.textContent = rowTotal;
+                    rowTotalCell.textContent = rowTotals[rowIndex];
                     rowTotalCell.id = `rowTotal-${rowIndex}`;
                     tr.appendChild(rowTotalCell);
+                    
+                    // Row percentage cell
+                    const rowPercentCell = document.createElement('td');
+                    rowPercentCell.className = 'total-cell';
+                    rowPercentCell.style.fontSize = '0.9em';
+                    const rowPercent = grandTotal > 0 ? ((rowTotals[rowIndex] / grandTotal) * 100).toFixed(1) : '0.0';
+                    rowPercentCell.textContent = `${rowPercent}%`;
+                    rowPercentCell.id = `rowPercent-${rowIndex}`;
+                    tr.appendChild(rowPercentCell);
                     
                     tableBody.appendChild(tr);
                 });
@@ -3923,15 +4793,12 @@ Feel free to reach out through any of the following channels:
                 totalsLabel.className = 'total-cell';
                 totalsRow.appendChild(totalsLabel);
                 
-                let grandTotal = 0;
                 currentData.cols.forEach((_, colIndex) => {
-                    const colTotal = currentData.data.reduce((sum, row) => sum + row[colIndex], 0);
                     const td = document.createElement('td');
                     td.className = 'total-cell';
-                    td.textContent = colTotal;
+                    td.textContent = colTotals[colIndex];
                     td.id = `colTotal-${colIndex}`;
                     totalsRow.appendChild(td);
-                    grandTotal += colTotal;
                 });
                 
                 const grandTotalCell = document.createElement('td');
@@ -3940,7 +4807,47 @@ Feel free to reach out through any of the following channels:
                 grandTotalCell.id = 'grandTotal';
                 totalsRow.appendChild(grandTotalCell);
                 
+                // Column percentage cell
+                const colPercentCell = document.createElement('td');
+                colPercentCell.className = 'total-cell';
+                colPercentCell.textContent = '100.0%';
+                colPercentCell.style.fontSize = '0.9em';
+                totalsRow.appendChild(colPercentCell);
+                
                 tableBody.appendChild(totalsRow);
+                
+                // Add expected counts row if enabled
+                const showExpected = document.getElementById('showExpectedCounts')?.checked;
+                if (showExpected) {
+                    const expectedRow = document.createElement('tr');
+                    expectedRow.className = 'expected-row';
+                    
+                    const expectedLabel = document.createElement('td');
+                    expectedLabel.textContent = 'Expected';
+                    expectedLabel.className = 'total-cell';
+                    expectedLabel.style.fontStyle = 'italic';
+                    expectedRow.appendChild(expectedLabel);
+                    
+                    currentData.cols.forEach((_, colIndex) => {
+                        currentData.rows.forEach((_, rowIndex) => {
+                            const expected = (rowTotals[rowIndex] * colTotals[colIndex]) / grandTotal;
+                            const td = document.createElement('td');
+                            td.textContent = expected.toFixed(1);
+                            td.style.fontStyle = 'italic';
+                            td.style.color = 'var(--secondary)';
+                            expectedRow.appendChild(td);
+                        });
+                    });
+                    
+                    // Fill remaining cells
+                    for (let i = 0; i < 2; i++) {
+                        const td = document.createElement('td');
+                        td.textContent = '-';
+                        expectedRow.appendChild(td);
+                    }
+                    
+                    tableBody.appendChild(expectedRow);
+                }
                 
                 // Update header inputs
                 currentData.rows.forEach((row, index) => {
@@ -3968,6 +4875,9 @@ Feel free to reach out through any of the following channels:
                     });
                     colHeadersContainer.appendChild(input);
                 });
+                
+                // Update percentages
+                updatePercentages();
             }
 
             // Update row total
@@ -3979,18 +4889,24 @@ Feel free to reach out through any of the following channels:
                     rowTotalCell.textContent = rowTotal;
                 }
                 updateGrandTotal();
+                updatePercentages();
             }
 
             // Update column totals
             function updateColTotals() {
+                const colTotals = currentData.cols.map((_, colIndex) => 
+                    currentData.data.reduce((sum, row) => sum + row[colIndex], 0)
+                );
+                
                 currentData.cols.forEach((_, colIndex) => {
-                    const colTotal = currentData.data.reduce((sum, row) => sum + row[colIndex], 0);
                     const colTotalCell = document.getElementById(`colTotal-${colIndex}`);
                     if (colTotalCell) {
-                        colTotalCell.textContent = colTotal;
+                        colTotalCell.textContent = colTotals[colIndex];
                     }
                 });
+                
                 updateGrandTotal();
+                updatePercentages();
             }
 
             // Update grand total
@@ -4000,6 +4916,21 @@ Feel free to reach out through any of the following channels:
                 if (grandTotalCell) {
                     grandTotalCell.textContent = grandTotal;
                 }
+            }
+
+            // Update percentages
+            function updatePercentages() {
+                const rowTotals = currentData.data.map(row => row.reduce((a, b) => a + b, 0));
+                const grandTotal = rowTotals.reduce((a, b) => a + b, 0);
+                
+                // Update row percentages
+                currentData.rows.forEach((_, rowIndex) => {
+                    const rowPercentCell = document.getElementById(`rowPercent-${rowIndex}`);
+                    if (rowPercentCell && grandTotal > 0) {
+                        const rowPercent = (rowTotals[rowIndex] / grandTotal) * 100;
+                        rowPercentCell.textContent = `${rowPercent.toFixed(1)}%`;
+                    }
+                });
             }
 
             // Add a new row
@@ -4055,6 +4986,85 @@ Feel free to reach out through any of the following channels:
                 return sign * y;
             }
 
+            // Calculate chi-square for association
+            function calculateChiSquareAssociation(data) {
+                const { rows, cols, data: tableData } = data;
+                const r = rows.length;
+                const c = cols.length;
+                
+                // Calculate row and column totals
+                const rowTotals = tableData.map(row => row.reduce((a, b) => a + b, 0));
+                const colTotals = cols.map((_, j) => tableData.reduce((sum, row) => sum + row[j], 0));
+                const grandTotal = rowTotals.reduce((a, b) => a + b, 0);
+                
+                // Calculate chi-square statistic
+                let chiSquare = 0;
+                for (let i = 0; i < r; i++) {
+                    for (let j = 0; j < c; j++) {
+                        const observed = tableData[i][j];
+                        const expected = (rowTotals[i] * colTotals[j]) / grandTotal;
+                        if (expected > 0) {
+                            chiSquare += Math.pow(observed - expected, 2) / expected;
+                        }
+                    }
+                }
+                
+                return {
+                    statistic: chiSquare,
+                    df: (r - 1) * (c - 1),
+                    pValue: 1 - chiSquareCDF(chiSquare, (r - 1) * (c - 1))
+                };
+            }
+
+            // Chi-square CDF approximation
+            function chiSquareCDF(x, df) {
+                if (df <= 0) return 0;
+                if (x <= 0) return 0;
+                
+                // Approximation using regularized gamma function
+                const k = df / 2;
+                const t = x / 2;
+                
+                // Use series expansion for small x
+                let sum = 0;
+                let term = Math.exp(-t) * Math.pow(t, k);
+                for (let i = 0; i < 100; i++) {
+                    sum += term;
+                    term *= t / (k + i + 1);
+                    if (term < 1e-10) break;
+                }
+                
+                return sum / gamma(k);
+            }
+
+            // Gamma function approximation
+            function gamma(z) {
+                const g = 7;
+                const p = [
+                    0.99999999999980993,
+                    676.5203681218851,
+                    -1259.1392167224028,
+                    771.32342877765313,
+                    -176.61502916214059,
+                    12.507343278686905,
+                    -0.13857109526572012,
+                    9.9843695780195716e-6,
+                    1.5056327351493116e-7
+                ];
+                
+                if (z < 0.5) {
+                    return Math.PI / (Math.sin(Math.PI * z) * gamma(1 - z));
+                } else {
+                    z -= 1;
+                    let x = p[0];
+                    for (let i = 1; i < g + 2; i++) {
+                        x += p[i] / (z + i);
+                    }
+                    const t = z + g + 0.5;
+                    return Math.sqrt(2 * Math.PI) * Math.pow(t, z + 0.5) * Math.exp(-t) * x;
+                }
+            }
+
             // Perform Cochran-Armitage test
             function performCochranArmitageTest() {
                 const testType = document.querySelector('input[name="testType"]:checked').value;
@@ -4097,36 +5107,47 @@ Feel free to reach out through any of the following channels:
                 // Calculate variance term
                 const variance_term = p_bar * (1 - p_bar) * nj.reduce((sum, n, idx) => sum + n * Math.pow(x[idx] - x_bar, 2), 0);
                 
-                // Apply continuity correction if requested
+                // Apply continuity correction
                 let c = 0;
                 if (continuityCorrection) {
                     c = 0.5;
                 }
                 
-                // Calculate z-statistic
-                let z;
-                if (testType === 'one.sided.decreasing') {
-                    z = (numerator + c) / Math.sqrt(variance_term);
-                } else {
-                    z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
-                }
-                
-                // Calculate p-value
-                let p_value;
-                const normalCDF = (z) => {
-                    return (1 + erf(z / Math.sqrt(2))) / 2;
-                };
-                
-                if (testType === 'two.sided') {
-                    p_value = 2 * (1 - normalCDF(Math.abs(z)));
-                } else if (testType === 'one.sided.increasing') {
-                    p_value = 1 - normalCDF(z);
-                } else if (testType === 'one.sided.decreasing') {
-                    p_value = normalCDF(z);
-                }
+// In the performCochranArmitageTest() function:
+// Calculate z-statistic
+let z;
+if (testType === 'one.sided.decreasing') {
+    // For one-sided decreasing test, we need to check the sign of numerator
+    if (numerator < 0) {
+        z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
+    } else {
+        z = (numerator + c) / Math.sqrt(variance_term);
+    }
+} else if (testType === 'one.sided.increasing') {
+    z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
+} else {
+    z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
+}
+
+// Calculate p-value
+let p_value;
+const normalCDF = (z) => {
+    return (1 + erf(z / Math.sqrt(2))) / 2;
+};
+
+if (testType === 'two.sided') {
+    p_value = 2 * (1 - normalCDF(Math.abs(z)));
+} else if (testType === 'one.sided.increasing') {
+    p_value = 1 - normalCDF(z);
+} else if (testType === 'one.sided.decreasing') {
+    p_value = normalCDF(z);
+}
                 
                 // Calculate chi-square
                 const chi_square = z * z;
+                
+                // Calculate chi-square for association
+                const chiSquareAssociation = calculateChiSquareAssociation(currentData);
                 
                 // Calculate percentages for chart
                 const rowTotals = data.map(row => row.reduce((a, b) => a + b, 0));
@@ -4141,6 +5162,7 @@ Feel free to reach out through any of the following channels:
                 return {
                     z: z,
                     chi_square: chi_square,
+                    chi_square_association: chiSquareAssociation,
                     p_value: p_value,
                     N: N,
                     k: k,
@@ -4159,7 +5181,8 @@ Feel free to reach out through any of the following channels:
                     rowPercentages: rowPercentages,
                     colPercentages: colPercentages,
                     successRates: pj.map(p => Math.round(p * 100)),
-                    labels: cols
+                    labels: cols,
+                    degreesOfFreedom: (rows.length - 1) * (cols.length - 1)
                 };
             }
 
@@ -4239,40 +5262,67 @@ Feel free to reach out through any of the following channels:
                             Analysis Results
                         </h2>
                         
-                        <div class="results-grid">
-                            <div class="result-item">
-                                <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 1.5rem;">
-                                    Test Statistics
-                                </h3>
-                                <div class="stat-box">
-                                    <div class="stat-value">${results.z.toFixed(4)}</div>
-                                    <div class="stat-label">Z-statistic</div>
+                        <div class="enhanced-results">
+                            <div class="enhanced-stat-card">
+                                <div class="enhanced-stat-card-title">
+                                    <i class="fas fa-calculator"></i>
+                                    Z-statistic
                                 </div>
-                                <div class="stat-box">
-                                    <div class="stat-value">${results.chi_square.toFixed(4)}</div>
-                                    <div class="stat-label">Chi-square (χ²)</div>
+                                <div class="enhanced-stat-value highlight">${results.z.toFixed(4)}</div>
+                                <div class="enhanced-stat-description">
+                                    Standard normal deviate for trend test
                                 </div>
                             </div>
                             
-                            <div class="result-item">
-                                <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 1.5rem;">
-                                    Statistical Significance
-                                </h3>
-                                <div class="stat-box">
-                                    <div class="stat-value">${pValueDisplay}</div>
-                                    <div class="stat-label">P-value</div>
+                            <div class="enhanced-stat-card">
+                                <div class="enhanced-stat-card-title">
+                                    <i class="fas fa-sigma"></i>
+                                    Chi-square (χ²)
                                 </div>
-                                <div style="margin-top: 1.5rem; background: var(--light); padding: 1.25rem; border-radius: 0.625rem;">
-                                    <div style="font-weight: 600; color: var(--text); margin-bottom: 0.75rem; font-size: 1rem;">
-                                        Test Parameters:
-                                    </div>
-                                    <div style="color: var(--secondary); font-size: 1rem; line-height: 1.7; font-weight: 500;">
-                                        • Sample size: ${results.N}<br>
-                                        • Number of groups: ${results.k}<br>
-                                        • Test type: ${testTypeText}<br>
-                                        • Continuity correction: ${results.continuityCorrection ? 'Yes' : 'No'}
-                                    </div>
+                                <div class="enhanced-stat-value">${results.chi_square.toFixed(4)}</div>
+                                <div class="enhanced-stat-description">
+                                    Square of Z-statistic (df = 1)
                                 </div>
+                            </div>
+                            
+                            <div class="enhanced-stat-card">
+                                <div class="enhanced-stat-card-title">
+                                    <i class="fas fa-percentage"></i>
+                                    P-value
+                                </div>
+                                <div class="enhanced-stat-value highlight">${pValueDisplay}</div>
+                                <div class="enhanced-stat-description">
+                                    Significance of trend (${testTypeText})
+                                </div>
+                            </div>
+                            
+                            <div class="enhanced-stat-card">
+                                <div class="enhanced-stat-card-title">
+                                    <i class="fas fa-project-diagram"></i>
+                                    Degrees of Freedom
+                                </div>
+                                <div class="enhanced-stat-value">${results.degreesOfFreedom}</div>
+                                <div class="enhanced-stat-description">
+                                    (Rows - 1) × (Columns - 1)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chi-square Test of Association Highlight -->
+                        <div class="chi-square-highlight">
+                            <div class="chi-square-highlight-title">
+                                <i class="fas fa-compress-alt"></i>
+                                Chi-square Test of Association
+                            </div>
+                            <div>
+                                <span class="chi-square-value">${results.chi_square_association.statistic.toFixed(4)}</span>
+                                <span class="chi-square-label">χ² (df = ${results.chi_square_association.df})</span>
+                            </div>
+                            <div style="margin-top: 0.75rem;">
+                                <strong>P-value for association:</strong> ${results.chi_square_association.pValue.toFixed(6)}
+                            </div>
+                            <div class="chi-square-comparison">
+                                <i class="fas fa-info-circle"></i> This tests general association (not specifically trend). Compare with trend p-value above.
                             </div>
                         </div>
                         
@@ -4313,44 +5363,114 @@ Feel free to reach out through any of the following channels:
                             </div>
                         </div>
                         
-                                         <!-- Visualization -->
-                        <div style="margin-top: 2.25rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                                <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 0.875rem;">
-                                    <i class="fas fa-chart-bar"></i>
-                                    Data Visualization
-                                </h3>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="analysisChart"></canvas>
-                            </div>
-                            <div style="text-align: center; margin-top: 1.5rem;">
-                                <button class="btn-primary" id="downloadChartBtn" style="padding: 1rem 2rem; font-size: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fas fa-download"></i>
-                                    Download Chart (png)
-                                </button>
-                            </div>
-                            <p style="text-align: center; color: var(--secondary); margin-top: 1.25rem; font-size: 1rem; font-weight: 500;">
-                                <i class="fas fa-info-circle"></i> 
-                                Chart shows frequency distribution with selected labels (${showCounts ? 'counts' : ''}${showCounts && (showRowPercent || showColPercent) ? ', ' : ''}${showRowPercent ? 'row %' : ''}${showRowPercent && showColPercent ? ', ' : ''}${showColPercent ? 'column %' : ''})
-                            </p>
-                        </div>
-                    </div>
+<!-- Visualization -->
+<div style="margin-top: 2.25rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 0.875rem;">
+            <i class="fas fa-chart-bar"></i>
+            Data Visualization
+        </h3>
+        <div style="display: flex; gap: 0.75rem;">
+            <button class="btn-secondary" id="fullscreenChartBtn" style="padding: 0.75rem 1.25rem; font-size: 0.9rem;">
+                <i class="fas fa-expand"></i>
+                Full Screen
+            </button>
+            <button class="btn-primary" id="downloadChartBtn" style="padding: 0.75rem 1.25rem; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-download"></i>
+                Download PNG
+            </button>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas id="analysisChart"></canvas>
+    </div>
+    
+  <!-- Full Screen Modal -->
+<div id="fullscreenModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center;">
+    <div style="width: 95%; height: 90%; background: white; border-radius: 8px; padding: 1rem; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+        <button id="closeFullscreenBtn" style="position: absolute; top: 1rem; right: 1rem; background: var(--primary); color: white; border: none; border-radius: 6px; width: 44px; height: 44px; font-size: 1.25rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10000; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3); transition: all 0.2s ease;">
+            <i class="fas fa-times"></i>
+        </button>
+        <div style="width: 100%; height: 100%; position: relative; overflow: auto;">
+            <canvas id="fullscreenChart"></canvas>
+        </div>
+    </div>
+    <div style="margin-top: 1.5rem; display: flex; gap: 1rem; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <button class="fullscreen-control-btn" id="zoomInFullscreenBtn" style="padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);">
+            <i class="fas fa-search-plus"></i>
+            Zoom In
+        </button>
+        <button class="fullscreen-control-btn" id="zoomOutFullscreenBtn" style="padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);">
+            <i class="fas fa-search-minus"></i>
+            Zoom Out
+        </button>
+        <button class="fullscreen-control-btn" id="resetZoomFullscreenBtn" style="padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);">
+            <i class="fas fa-sync-alt"></i>
+            Reset Zoom
+        </button>
+        <button class="fullscreen-control-btn" id="downloadFullscreenChartBtn" style="padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);">
+            <i class="fas fa-download"></i>
+            Download
+        </button>
+    </div>
+</div>
+    
+    <p style="text-align: center; color: var(--secondary); margin-top: 1.25rem; font-size: 1rem; font-weight: 500;">
+        <i class="fas fa-info-circle"></i> 
+        Chart shows frequency distribution with selected labels (${showCounts ? 'counts' : ''}${showCounts && (showRowPercent || showColPercent) ? ', ' : ''}${showRowPercent ? 'row %' : ''}${showRowPercent && showColPercent ? ', ' : ''}${showColPercent ? 'column %' : ''})
+        <br>
+        <small>Click "Full Screen" to inspect chart details or click directly on the chart to view it in full screen</small>
+    </p>
+</div>
+</div>
                     
                     <!-- Export Section -->
                     <div class="export-section">
                         <h3 class="export-title">
-                            <i class="fas fa-file-word"></i>
-                            Export Complete Report
+                            <i class="fas fa-file-export"></i>
+                            Export Results
                         </h3>
                         <p class="export-desc">
-                            Download a complete analysis report in Microsoft Word format including the contingency table, 
-                            statistical results, interpretation, visualization, and proper citation.
+                            Download your analysis results in various formats for reporting, publication, or further analysis.
                         </p>
-                        <button class="export-btn" id="exportWordBtn">
-                            <i class="fas fa-download"></i>
-                            Export to Microsoft Word (Includes Chart)
-                        </button>
+                        
+                        <div class="export-options">
+                            <div class="export-option">
+                                <div class="export-icon">
+                                    <i class="fas fa-file-word"></i>
+                                </div>
+                                <div class="export-option-title">Microsoft Word Report</div>
+                                <div class="export-option-desc">Complete report with tables, results, and charts</div>
+                                <button class="table-action-btn primary export-word-btn">
+                                    <i class="fas fa-download"></i>
+                                    Export Word
+                                </button>
+                            </div>
+                            
+                            <div class="export-option">
+                                <div class="export-icon">
+                                    <i class="fas fa-file-excel"></i>
+                                </div>
+                                <div class="export-option-title">Excel Spreadsheet</div>
+                                <div class="export-option-desc">Data and results in Excel format for further analysis</div>
+                                <button class="table-action-btn primary export-excel-btn">
+                                    <i class="fas fa-download"></i>
+                                    Export Excel
+                                </button>
+                            </div>
+                            
+                            <div class="export-option">
+                                <div class="export-icon">
+                                    <i class="fas fa-file-csv"></i>
+                                </div>
+                                <div class="export-option-title">CSV Data</div>
+                                <div class="export-option-desc">Raw data in CSV format for statistical software</div>
+                                <button class="table-action-btn primary export-csv-btn">
+                                    <i class="fas fa-download"></i>
+                                    Export CSV
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Citation Section -->
@@ -4379,9 +5499,284 @@ Feel free to reach out through any of the following channels:
                 // Update chart
                 updateChart(results);
                 
+                // Full screen chart functionality
+let fullscreenChartInstance = null;
+let chartZoomLevel = 1;
+const MAX_ZOOM = 3;
+const MIN_ZOOM = 0.5;
+const ZOOM_STEP = 0.1;
+
+function openFullscreenChart() {
+    const modal = document.getElementById('fullscreenModal');
+    const fullscreenCanvas = document.getElementById('fullscreenChart');
+    const ctx = fullscreenCanvas.getContext('2d');
+    
+    // Show modal
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Copy chart data from original chart
+    const originalChart = chartInstance;
+    
+    // Destroy existing fullscreen chart if it exists
+    if (fullscreenChartInstance) {
+        fullscreenChartInstance.destroy();
+    }
+    
+    // Create fullscreen chart with enhanced options
+    fullscreenChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: JSON.parse(JSON.stringify(originalChart.data)), // Deep copy
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Frequency Distribution with Percentages - Full Screen View',
+                    font: {
+                        size: 24,
+                        family: 'Inter',
+                        weight: '700'
+                    },
+                    color: getComputedStyle(document.body).getPropertyValue('--text'),
+                    padding: {
+                        top: 20,
+                        bottom: 30
+                    }
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            family: 'Inter',
+                            size: 18,
+                            weight: '600'
+                        },
+                        color: getComputedStyle(document.body).getPropertyValue('--text'),
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: getComputedStyle(document.body).getPropertyValue('--card-bg'),
+                    borderColor: getComputedStyle(document.body).getPropertyValue('--border'),
+                    borderWidth: 2,
+                    padding: 16,
+                    titleFont: {
+                        size: 16,
+                        family: 'Inter',
+                        weight: '600'
+                    },
+                    bodyFont: {
+                        size: 15,
+                        family: 'Inter',
+                        weight: '500'
+                    },
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.y;
+                            
+                            if (showRowPercent) {
+                                const rowIndex = context.datasetIndex;
+                                const colIndex = context.dataIndex;
+                                label += ` (${results.rowPercentages[rowIndex][colIndex]}% of row)`;
+                            }
+                            if (showColPercent) {
+                                const rowIndex = context.datasetIndex;
+                                const colIndex = context.dataIndex;
+                                label += ` [${results.colPercentages[rowIndex][colIndex]}% of column]`;
+                            }
+                            return label;
+                        }
+                    }
+                },
+                datalabels: {
+                    display: true,
+                    color: function(context) {
+                        const dataset = context.dataset;
+                        const backgroundColor = dataset.backgroundColor;
+                        if (backgroundColor === 'rgba(52, 168, 83, 0.7)' || backgroundColor === 'rgba(234, 67, 53, 0.7)') {
+                            return '#ffffff';
+                        }
+                        return '#000000';
+                    },
+                    font: {
+                        weight: '600',
+                        size: 14
+                    },
+                    formatter: function(value, context) {
+                        const labels = context.chart.data.datasets[context.datasetIndex].dataLabels;
+                        return labels ? labels[context.dataIndex] : value;
+                    },
+                    anchor: 'center',
+                    align: 'center'
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Groups',
+                        font: {
+                            family: 'Inter',
+                            size: 20,
+                            weight: '700'
+                        },
+                        color: getComputedStyle(document.body).getPropertyValue('--text'),
+                        padding: { top: 20 }
+                    },
+                    grid: {
+                        color: getComputedStyle(document.body).getPropertyValue('--chart-grid'),
+                        lineWidth: 2
+                    },
+                    ticks: {
+                        color: getComputedStyle(document.body).getPropertyValue('--chart-text'),
+                        font: {
+                            size: 16,
+                            weight: '600'
+                        },
+                        padding: 10
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Frequency',
+                        font: {
+                            family: 'Inter',
+                            size: 20,
+                            weight: '700'
+                        },
+                        color: getComputedStyle(document.body).getPropertyValue('--text'),
+                        padding: { bottom: 20 }
+                    },
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0,
+                        color: getComputedStyle(document.body).getPropertyValue('--chart-text'),
+                        font: {
+                            size: 16,
+                            weight: '600'
+                        },
+                        padding: 10
+                    },
+                    grid: {
+                        color: getComputedStyle(document.body).getPropertyValue('--chart-grid'),
+                        lineWidth: 2
+                    }
+                }
+            },
+            animation: {
+                duration: 1000,
+                easing: 'easeOutQuart'
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            }
+        }
+    });
+    
+    // Apply initial zoom
+    applyChartZoom();
+}
+
+function closeFullscreenChart() {
+    const modal = document.getElementById('fullscreenModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    chartZoomLevel = 1; // Reset zoom level
+    
+    // Destroy fullscreen chart
+    if (fullscreenChartInstance) {
+        fullscreenChartInstance.destroy();
+        fullscreenChartInstance = null;
+    }
+}
+
+function applyChartZoom() {
+    if (!fullscreenChartInstance) return;
+    
+    const canvas = document.getElementById('fullscreenChart');
+    const container = canvas.parentElement;
+    
+    // Apply zoom transform
+    canvas.style.transform = `scale(${chartZoomLevel})`;
+    canvas.style.transformOrigin = 'center center';
+    
+    // Adjust container size based on zoom
+    container.style.overflow = 'auto';
+    container.style.width = '100%';
+    container.style.height = '100%';
+}
+
+function zoomInChart() {
+    if (chartZoomLevel < MAX_ZOOM) {
+        chartZoomLevel += ZOOM_STEP;
+        applyChartZoom();
+    }
+}
+
+function zoomOutChart() {
+    if (chartZoomLevel > MIN_ZOOM) {
+        chartZoomLevel -= ZOOM_STEP;
+        applyChartZoom();
+    }
+}
+
+function resetChartZoom() {
+    chartZoomLevel = 1;
+    applyChartZoom();
+}
+
+function downloadFullscreenChart() {
+    if (fullscreenChartInstance) {
+        // Create download link
+        const link = document.createElement('a');
+        link.download = 'catrend-analysis-chart-fullscreen.png';
+        link.href = fullscreenChartInstance.toBase64Image();
+        link.click();
+    }
+}
+
+// Also allow clicking on the chart itself to open fullscreen
+document.getElementById('analysisChart')?.addEventListener('click', function() {
+    openFullscreenChart();
+});
+
+// Add event listeners for fullscreen functionality
+document.getElementById('fullscreenChartBtn')?.addEventListener('click', openFullscreenChart);
+document.getElementById('closeFullscreenBtn')?.addEventListener('click', closeFullscreenChart);
+document.getElementById('zoomInFullscreenBtn')?.addEventListener('click', zoomInChart);
+document.getElementById('zoomOutFullscreenBtn')?.addEventListener('click', zoomOutChart);
+document.getElementById('resetZoomFullscreenBtn')?.addEventListener('click', resetChartZoom);
+document.getElementById('downloadFullscreenChartBtn')?.addEventListener('click', downloadFullscreenChart);
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('fullscreenModal').style.display === 'flex') {
+        closeFullscreenChart();
+    }
+});
+
+// Close modal when clicking outside the chart container
+document.getElementById('fullscreenModal')?.addEventListener('click', function(e) {
+    if (e.target.id === 'fullscreenModal') {
+        closeFullscreenChart();
+    }
+});
+                
                 // Setup event listeners for new buttons
                 document.getElementById('downloadChartBtn').addEventListener('click', downloadChart);
-                document.getElementById('exportWordBtn').addEventListener('click', exportToWord);
+                document.querySelector('.export-word-btn').addEventListener('click', exportToWord);
+                document.querySelector('.export-excel-btn').addEventListener('click', exportToExcel);
+                document.querySelector('.export-csv-btn').addEventListener('click', exportToCSV);
                 
                 // Scroll to results
                 setTimeout(() => {
@@ -4432,39 +5827,40 @@ Feel free to reach out through any of the following channels:
                 
                 // Prepare data
                 const labels = currentData.cols;
-                          const datasets = currentData.rows.map((row, rowIndex) => {
-                        const data = currentData.data[rowIndex];
-                        
-                        // Generate labels based on selected options
-                        const dataLabels = data.map((value, colIndex) => {
-                            let label = '';
-                            if (showCounts) {
-                                label += value;
-                            }
-                            if (showRowPercent && showCounts) {
-                                label += '\n(' + results.rowPercentages[rowIndex][colIndex] + '%)';
-                            } else if (showRowPercent) {
-                                label += results.rowPercentages[rowIndex][colIndex] + '%';
-                            }
-                            if (showColPercent && showCounts) {
-                                label += '\n[' + results.colPercentages[rowIndex][colIndex] + '%]';
-                            } else if (showColPercent) {
-                                label += '[' + results.colPercentages[rowIndex][colIndex] + '%]';
-                            }
-                            return label.trim();
-                        });
-                        
-                        return {
-                            label: row,
-                            data: data,
-                            dataLabels: dataLabels, // Store labels for datalabels plugin
-                            backgroundColor: rowIndex === 0 ? 
-                                'rgba(52, 168, 83, 0.7)' : 'rgba(234, 67, 53, 0.7)',
-                            borderColor: rowIndex === 0 ? 
-                                'rgba(52, 168, 83, 1)' : 'rgba(234, 67, 53, 1)',
-                            borderWidth: 2
-                        };
-                    });                
+                const datasets = currentData.rows.map((row, rowIndex) => {
+                    const data = currentData.data[rowIndex];
+                    
+                    // Generate labels based on selected options
+                    const dataLabels = data.map((value, colIndex) => {
+                        let label = '';
+                        if (showCounts) {
+                            label += value;
+                        }
+                        if (showRowPercent && showCounts) {
+                            label += '\n(' + results.rowPercentages[rowIndex][colIndex] + '%)';
+                        } else if (showRowPercent) {
+                            label += results.rowPercentages[rowIndex][colIndex] + '%';
+                        }
+                        if (showColPercent && showCounts) {
+                            label += '\n[' + results.colPercentages[rowIndex][colIndex] + '%]';
+                        } else if (showColPercent) {
+                            label += '[' + results.colPercentages[rowIndex][colIndex] + '%]';
+                        }
+                        return label.trim();
+                    });
+                    
+                    return {
+                        label: row,
+                        data: data,
+                        dataLabels: dataLabels, // Store labels for datalabels plugin
+                        backgroundColor: rowIndex === 0 ? 
+                            'rgba(52, 168, 83, 0.7)' : 'rgba(234, 67, 53, 0.7)',
+                        borderColor: rowIndex === 0 ? 
+                            'rgba(52, 168, 83, 1)' : 'rgba(234, 67, 53, 1)',
+                        borderWidth: 2
+                    };
+                });                
+                
                 // Create new chart
                 chartInstance = new Chart(ctx, {
                     type: 'bar',
@@ -4475,7 +5871,7 @@ Feel free to reach out through any of the following channels:
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                                         plugins: {
+                        plugins: {
                             title: {
                                 display: true,
                                 text: 'Frequency Distribution with Percentages',
@@ -4559,8 +5955,7 @@ Feel free to reach out through any of the following channels:
                                 align: 'center'
                             }
                         },
-                 
-                                         scales: {
+                        scales: {
                             x: {
                                 title: {
                                     display: true,
@@ -4643,14 +6038,17 @@ Feel free to reach out through any of the following channels:
                 currentData.cols.forEach(col => {
                     tableHTML += `<th>${col}</th>`;
                 });
-                tableHTML += '<th>Total</th></tr>';
+                tableHTML += '<th>Total</th><th>Row %</th></tr>';
                 
                 currentData.rows.forEach((row, rowIndex) => {
                     tableHTML += `<tr><th>${row}</th>`;
                     currentData.data[rowIndex].forEach(cell => {
                         tableHTML += `<td>${cell}</td>`;
                     });
-                    tableHTML += `<td><strong>${currentData.data[rowIndex].reduce((a, b) => a + b, 0)}</strong></td></tr>`;
+                    const rowTotal = currentData.data[rowIndex].reduce((a, b) => a + b, 0);
+                    const rowPercent = (rowTotal / results.N * 100).toFixed(1);
+                    tableHTML += `<td><strong>${rowTotal}</strong></td>`;
+                    tableHTML += `<td><strong>${rowPercent}%</strong></td></tr>`;
                 });
                 
                 tableHTML += '<tr><th>Total</th>';
@@ -4658,7 +6056,20 @@ Feel free to reach out through any of the following channels:
                     const colTotal = currentData.data.reduce((sum, row) => sum + row[colIndex], 0);
                     tableHTML += `<td><strong>${colTotal}</strong></td>`;
                 });
-                tableHTML += `<td><strong>${currentData.data.flat().reduce((a, b) => a + b, 0)}</strong></td></tr>`;
+                tableHTML += `<td><strong>${results.N}</strong></td><td><strong>100.0%</strong></td></tr>`;
+                
+                // Add expected counts
+                const showExpected = document.getElementById('showExpectedCounts')?.checked;
+                if (showExpected) {
+                    tableHTML += '<tr><th><em>Expected</em></th>';
+                    currentData.cols.forEach((_, colIndex) => {
+                        currentData.rows.forEach((_, rowIndex) => {
+                            const expected = (results.rowTotals[rowIndex] * results.colTotals[colIndex]) / results.N;
+                            tableHTML += `<td><em>${expected.toFixed(1)}</em></td>`;
+                        });
+                    });
+                    tableHTML += '<td><em>-</em></td><td><em>-</em></td></tr>';
+                }
                 tableHTML += '</table>';
                 
                 // Generate interpretation
@@ -4789,8 +6200,20 @@ Feel free to reach out through any of the following channels:
                                     <td>${results.chi_square.toFixed(4)}</td>
                                 </tr>
                                 <tr>
-                                    <td>P-value</td>
+                                    <td>P-value (Trend)</td>
                                     <td>${results.p_value.toFixed(6)}</td>
+                                </tr>
+                                <tr>
+                                    <td>Chi-square (Association)</td>
+                                    <td>${results.chi_square_association.statistic.toFixed(4)}</td>
+                                </tr>
+                                <tr>
+                                    <td>P-value (Association)</td>
+                                    <td>${results.chi_square_association.pValue.toFixed(6)}</td>
+                                </tr>
+                                <tr>
+                                    <td>Degrees of Freedom</td>
+                                    <td>${results.degreesOfFreedom}</td>
                                 </tr>
                                 <tr>
                                     <td>Sample Size (N)</td>
@@ -4818,7 +6241,7 @@ Feel free to reach out through any of the following channels:
                         <ul>
                             <li><strong>Test Type:</strong> ${testTypeText}</li>
                             <li><strong>Continuity Correction:</strong> ${results.continuityCorrection ? 'Applied' : 'Not applied'}</li>
-                            <li><strong>Degrees of Freedom:</strong> 1</li>
+                            <li><strong>Degrees of Freedom:</strong> ${results.degreesOfFreedom}</li>
                             <li><strong>Chart Labels:</strong> ${document.getElementById('showCounts').checked ? 'Counts ' : ''}${document.getElementById('showRowPercent').checked ? 'Row % ' : ''}${document.getElementById('showColPercent').checked ? 'Column %' : ''}</li>
                         </ul>
                         
@@ -4844,6 +6267,102 @@ Feel free to reach out through any of the following channels:
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = `Cochran-Armitage-Report-${new Date().toISOString().slice(0,10)}.doc`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            // Export to Excel
+            function exportToExcel() {
+                const results = performCochranArmitageTest();
+                if (!results) return;
+                
+                // Create Excel content
+                let excelContent = 'Cochran-Armitage Trend Test Analysis\n';
+                excelContent += `Generated: ${new Date().toLocaleString()}\n\n`;
+                
+                // Contingency table
+                excelContent += 'Contingency Table\n';
+                excelContent += ',' + currentData.cols.join(',') + ',Total,Row %\n';
+                
+                currentData.rows.forEach((row, rowIndex) => {
+                    const rowData = currentData.data[rowIndex];
+                    const rowTotal = rowData.reduce((a, b) => a + b, 0);
+                    const rowPercent = (rowTotal / results.N * 100).toFixed(1);
+                    excelContent += `${row},${rowData.join(',')},${rowTotal},${rowPercent}%\n`;
+                });
+                
+                // Column totals
+                const colTotals = currentData.cols.map((_, colIndex) => 
+                    currentData.data.reduce((sum, row) => sum + row[colIndex], 0)
+                );
+                excelContent += `Total,${colTotals.join(',')},${results.N},100.0%\n\n`;
+                
+                // Statistical results
+                excelContent += 'Statistical Results\n';
+                excelContent += 'Statistic,Value\n';
+                excelContent += `Z-statistic,${results.z.toFixed(4)}\n`;
+                excelContent += `Chi-square (χ²),${results.chi_square.toFixed(4)}\n`;
+                excelContent += `P-value (Trend),${results.p_value.toFixed(6)}\n`;
+                excelContent += `Chi-square (Association),${results.chi_square_association.statistic.toFixed(4)}\n`;
+                excelContent += `P-value (Association),${results.chi_square_association.pValue.toFixed(6)}\n`;
+                excelContent += `Degrees of Freedom,${results.degreesOfFreedom}\n`;
+                excelContent += `Sample Size (N),${results.N}\n`;
+                excelContent += `Number of Groups (k),${results.k}\n`;
+                
+                // Test parameters
+                const testTypeText = {
+                    'two.sided': 'Two-sided',
+                    'one.sided.increasing': 'One-sided (increasing)',
+                    'one.sided.decreasing': 'One-sided (decreasing)'
+                }[results.testType];
+                
+                excelContent += '\nTest Parameters\n';
+                excelContent += `Test Type,${testTypeText}\n`;
+                excelContent += `Continuity Correction,${results.continuityCorrection ? 'Yes' : 'No'}\n`;
+                excelContent += `Analysis Date,${new Date().toLocaleDateString()}\n`;
+                
+                const blob = new Blob([excelContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Cochran-Armitage-Analysis-${new Date().toISOString().slice(0,10)}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            // Export to CSV
+            function exportToCSV() {
+                // Create CSV content
+                let csvContent = 'Row,Column,Count,Row Percentage,Column Percentage\n';
+                
+                currentData.rows.forEach((row, rowIndex) => {
+                    currentData.cols.forEach((col, colIndex) => {
+                        const count = currentData.data[rowIndex][colIndex];
+                        const rowTotal = currentData.data[rowIndex].reduce((a, b) => a + b, 0);
+                        const colTotal = currentData.data.reduce((sum, r) => sum + r[colIndex], 0);
+                        const rowPercent = rowTotal > 0 ? (count / rowTotal * 100).toFixed(1) : '0.0';
+                        const colPercent = colTotal > 0 ? (count / colTotal * 100).toFixed(1) : '0.0';
+                        
+                        csvContent += `"${row}","${col}",${count},${rowPercent},${colPercent}\n`;
+                    });
+                });
+                
+                // Add totals
+                csvContent += '\nTotals\n';
+                csvContent += 'Type,Value\n';
+                csvContent += `Total Observations,${currentData.data.flat().reduce((a, b) => a + b, 0)}\n`;
+                csvContent += `Number of Rows,${currentData.rows.length}\n`;
+                csvContent += `Number of Columns,${currentData.cols.length}\n`;
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Cochran-Armitage-Data-${new Date().toISOString().slice(0,10)}.csv`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -4891,6 +6410,11 @@ Feel free to reach out through any of the following channels:
             document.getElementById('removeColBtn').addEventListener('click', removeColumn);
             document.getElementById('runAnalysisBtn').addEventListener('click', runAnalysis);
             
+            // Add event listeners for display options
+            document.getElementById('showExpectedCounts')?.addEventListener('change', updateTable);
+            document.getElementById('showRowPercentages')?.addEventListener('change', updateTable);
+            document.getElementById('showColPercentages')?.addEventListener('change', updateTable);
+            
             // Add event listeners for chart options
             document.getElementById('showCounts').addEventListener('change', function() {
                 if (chartInstance) {
@@ -4929,14 +6453,24 @@ Feel free to reach out through any of the following channels:
                     <div>
                         <strong>Welcome to CATrend Analyzer Analysis!</strong> 
                         Start by modifying the table data, then click "Run Cochran-Armitage Test" to analyze trends across groups.
+                        <br><br>
+                        <strong>New Features:</strong>
+                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                            <li>Expected cell counts calculation</li>
+                            <li>Row and column percentage totals</li>
+                            <li>Chi-square test of association with p-value comparison</li>
+                            <li>Degrees of freedom in results</li>
+                            <li>Export to Excel and CSV formats</li>
+                            <li>One-sided test as default configuration</li>
+                        </ul>
                     </div>
                 `;
                 document.querySelector('#analysis .card').prepend(alert);
                 
-                // Remove alert after 10 seconds
+                // Remove alert after 15 seconds
                 setTimeout(() => {
                     alert.remove();
-                }, 10000);
+                }, 15000);
             }, 1000);
         }
 
@@ -4975,7 +6509,7 @@ Feel free to reach out through any of the following channels:
                 } else {
                     htmlElement.setAttribute('data-theme', 'light');
                     themeIcon.className = 'fas fa-moon';
-                    themeToggleBtn.title = 'Switch to Dark Mode';
+                    themeToggleBtn.title = 'Switch to Light Mode';
                     localStorage.setItem('catrend-theme', 'light');
                 }
                 
