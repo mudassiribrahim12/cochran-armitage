@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <style>
         :root {
             --primary: #1a73e8;
@@ -20,6 +21,26 @@
             --border: #dadce0;
             --shadow: 0 1px 3px rgba(0,0,0,0.12);
             --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+            --background: #ffffff;
+            --text: #202124;
+            --card-bg: #ffffff;
+        }
+
+        .dark-mode {
+            --primary: #8ab4f8;
+            --primary-dark: #669df6;
+            --secondary: #9aa0a6;
+            --success: #81c995;
+            --warning: #fdd663;
+            --danger: #f28b82;
+            --light: #202124;
+            --dark: #e8eaed;
+            --border: #5f6368;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-lg: 0 4px 12px rgba(0,0,0,0.25);
+            --background: #202124;
+            --text: #e8eaed;
+            --card-bg: #2d2e31;
         }
 
         * {
@@ -30,21 +51,23 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            color: #202124;
+            color: var(--text);
             line-height: 1.6;
-            background: #ffffff;
+            background: var(--background);
             -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Header - Minimal Design */
+        /* Header */
         .main-header {
-            background: #ffffff;
+            background: var(--card-bg);
             border-bottom: 1px solid var(--border);
             padding: 16px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: var(--shadow);
+            transition: all 0.3s ease;
         }
 
         .header-content {
@@ -71,17 +94,45 @@
         .logo-text {
             font-size: 20px;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text);
             letter-spacing: -0.5px;
         }
 
-        /* Navigation Tabs */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Navigation */
         .nav-tabs {
             display: flex;
             gap: 2px;
-            background: #f8f9fa;
+            background: var(--light);
             border-radius: 8px;
             padding: 4px;
+            margin-top: 16px;
         }
 
         .tab-btn {
@@ -101,12 +152,12 @@
 
         .tab-btn:hover {
             color: var(--primary);
-            background: rgba(26, 115, 232, 0.08);
+            background: rgba(138, 180, 248, 0.1);
         }
 
         .tab-btn.active {
             color: var(--primary);
-            background: #ffffff;
+            background: var(--card-bg);
             box-shadow: var(--shadow);
         }
 
@@ -117,7 +168,22 @@
             padding: 0 24px;
         }
 
-        /* Hero Section */
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Tab */
         .hero-section {
             text-align: center;
             margin-bottom: 48px;
@@ -126,7 +192,7 @@
         .hero-title {
             font-size: 36px;
             font-weight: 700;
-            color: var(--dark);
+            color: var(--text);
             margin-bottom: 16px;
             letter-spacing: -0.5px;
         }
@@ -141,18 +207,19 @@
 
         /* Cards */
         .card {
-            background: #ffffff;
+            background: var(--card-bg);
             border-radius: 12px;
             border: 1px solid var(--border);
             padding: 32px;
             margin-bottom: 32px;
             box-shadow: var(--shadow);
+            transition: all 0.3s ease;
         }
 
         .card-title {
             font-size: 20px;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text);
             margin-bottom: 24px;
             display: flex;
             align-items: center;
@@ -175,7 +242,7 @@
             padding: 24px;
             border-radius: 8px;
             border: 1px solid var(--border);
-            background: #ffffff;
+            background: var(--card-bg);
             transition: all 0.2s ease;
         }
 
@@ -194,7 +261,7 @@
         .feature-name {
             font-size: 18px;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text);
             margin-bottom: 12px;
         }
 
@@ -204,13 +271,13 @@
             line-height: 1.6;
         }
 
-        /* Table Controls - Compact Design */
+        /* Table Controls */
         .table-controls {
             display: flex;
             gap: 16px;
             margin-bottom: 24px;
             flex-wrap: wrap;
-            background: #f8f9fa;
+            background: var(--light);
             padding: 20px;
             border-radius: 12px;
             border: 1px solid var(--border);
@@ -247,13 +314,13 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: #ffffff;
+            background: var(--card-bg);
             border: 1px solid var(--border);
-            color: var(--dark);
+            color: var(--text);
         }
 
         .btn:hover {
-            background: #f8f9fa;
+            background: var(--light);
         }
 
         .btn-success {
@@ -263,7 +330,7 @@
         }
 
         .btn-success:hover {
-            background: #2e8b47;
+            opacity: 0.9;
         }
 
         .btn-danger {
@@ -273,7 +340,7 @@
         }
 
         .btn-danger:hover {
-            background: #d32f2f;
+            opacity: 0.9;
         }
 
         .btn:disabled {
@@ -282,7 +349,7 @@
         }
 
         .btn:disabled:hover {
-            background: #ffffff;
+            background: var(--card-bg);
         }
 
         /* Header Inputs */
@@ -314,20 +381,20 @@
             border: 1px solid var(--border);
             border-radius: 6px;
             font-size: 14px;
-            color: var(--dark);
-            background: #ffffff;
+            color: var(--text);
+            background: var(--card-bg);
             transition: border-color 0.2s ease;
         }
 
         .header-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+            box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.1);
         }
 
         /* Table Container */
         .table-container {
-            background: #ffffff;
+            background: var(--card-bg);
             border-radius: 12px;
             border: 1px solid var(--border);
             padding: 24px;
@@ -342,7 +409,7 @@
         }
 
         .data-table th {
-            background: #f8f9fa;
+            background: var(--light);
             color: var(--secondary);
             font-weight: 600;
             font-size: 14px;
@@ -363,27 +430,22 @@
             border: 1px solid var(--border);
             border-radius: 6px;
             font-size: 14px;
-            color: var(--dark);
+            color: var(--text);
             text-align: center;
-            background: #ffffff;
+            background: var(--card-bg);
             transition: all 0.2s ease;
         }
 
         .data-table input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
-        }
-
-        .data-table .header-input {
-            background: #f8f9fa;
-            border: 1px solid var(--border);
+            box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.1);
         }
 
         .total-cell {
-            background: #f8f9fa;
+            background: var(--light);
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text);
         }
 
         /* Analysis Controls */
@@ -397,7 +459,7 @@
         .analysis-group {
             flex: 1;
             min-width: 300px;
-            background: #f8f9fa;
+            background: var(--light);
             padding: 24px;
             border-radius: 12px;
             border: 1px solid var(--border);
@@ -420,6 +482,14 @@
         .radio-option input[type="radio"] {
             width: 18px;
             height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .checkbox-option {
@@ -427,12 +497,12 @@
             align-items: center;
             gap: 12px;
             cursor: pointer;
-            margin-top: 16px;
         }
 
         .checkbox-option input[type="checkbox"] {
             width: 18px;
             height: 18px;
+            accent-color: var(--primary);
         }
 
         /* Run Analysis Button */
@@ -462,6 +532,39 @@
             box-shadow: var(--shadow-lg);
         }
 
+        /* Chart Controls */
+        .chart-controls {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .chart-control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin: 32px 0;
+            height: 500px;
+            position: relative;
+        }
+
+        .chart-actions {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
         /* Results Section */
         .results-section {
             display: none;
@@ -472,11 +575,6 @@
             animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -485,14 +583,14 @@
         }
 
         .result-item {
-            background: #ffffff;
+            background: var(--card-bg);
             padding: 24px;
             border-radius: 12px;
             border: 1px solid var(--border);
         }
 
         .stat-box {
-            background: #f8f9fa;
+            background: var(--light);
             padding: 24px;
             border-radius: 8px;
             margin-bottom: 16px;
@@ -520,13 +618,13 @@
         }
 
         .significance-box.significant {
-            background: #e8f5e9;
-            border: 1px solid #c8e6c9;
+            background: rgba(52, 168, 83, 0.1);
+            border: 1px solid var(--success);
         }
 
         .significance-box.not-significant {
-            background: #ffebee;
-            border: 1px solid #ffcdd2;
+            background: rgba(234, 67, 53, 0.1);
+            border: 1px solid var(--danger);
         }
 
         .significance-content {
@@ -551,38 +649,28 @@
 
         /* Interpretation */
         .interpretation {
-            background: #e3f2fd;
+            background: rgba(138, 180, 248, 0.1);
             padding: 24px;
             border-radius: 12px;
             margin: 32px 0;
-            border: 1px solid #bbdefb;
+            border: 1px solid rgba(138, 180, 248, 0.3);
         }
 
         .interpretation-title {
             font-size: 18px;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text);
             margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        /* Chart Container */
-        .chart-container {
-            background: #ffffff;
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            margin: 32px 0;
-            height: 400px;
-        }
-
         /* Export Section */
         .export-section {
             text-align: center;
             padding: 32px;
-            background: #f8f9fa;
+            background: var(--light);
             border-radius: 12px;
             border: 1px solid var(--border);
             margin: 32px 0;
@@ -591,7 +679,7 @@
         .export-title {
             font-size: 20px;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text);
             margin-bottom: 16px;
         }
 
@@ -620,17 +708,48 @@
         }
 
         .export-btn:hover {
-            background: #2e8b47;
+            opacity: 0.9;
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
 
+        /* Citation Section */
+        .citation-section {
+            background: var(--light);
+            padding: 24px;
+            border-radius: 12px;
+            margin: 32px 0;
+            border: 1px solid var(--border);
+        }
+
+        .citation-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .citation-box {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: 'Times New Roman', serif;
+            font-size: 14px;
+            line-height: 1.8;
+            margin: 16px 0;
+        }
+
         /* Footer */
         .main-footer {
-            background: #f8f9fa;
+            background: var(--card-bg);
             border-top: 1px solid var(--border);
-            padding: 32px 0;
+            padding: 40px 0;
             margin-top: 64px;
+            transition: all 0.3s ease;
         }
 
         .footer-content {
@@ -647,7 +766,7 @@
         .developer-name {
             font-size: 18px;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text);
             margin-bottom: 8px;
         }
 
@@ -657,11 +776,17 @@
             margin-bottom: 16px;
         }
 
+        .contact-info {
+            margin: 20px 0;
+        }
+
         .contact-email {
             font-size: 16px;
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
+            display: inline-block;
+            margin: 10px 0;
         }
 
         .contact-email:hover {
@@ -681,6 +806,11 @@
             .header-content {
                 flex-direction: column;
                 gap: 16px;
+            }
+            
+            .header-controls {
+                width: 100%;
+                justify-content: center;
             }
             
             .nav-tabs {
@@ -712,6 +842,10 @@
             .data-table td {
                 padding: 12px;
             }
+            
+            .chart-container {
+                height: 400px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -734,6 +868,10 @@
             
             .stat-value {
                 font-size: 28px;
+            }
+            
+            .chart-container {
+                height: 350px;
             }
         }
 
@@ -764,27 +902,27 @@
         }
 
         .alert-info {
-            background: #e3f2fd;
-            border: 1px solid #bbdefb;
-            color: #1565c0;
+            background: rgba(138, 180, 248, 0.1);
+            border: 1px solid rgba(138, 180, 248, 0.3);
+            color: var(--primary);
         }
 
         .alert-warning {
-            background: #fff3e0;
-            border: 1px solid #ffccbc;
-            color: #e65100;
+            background: rgba(249, 171, 0, 0.1);
+            border: 1px solid rgba(249, 171, 0, 0.3);
+            color: var(--warning);
         }
 
         /* Formula Box */
         .formula-box {
-            background: #f8f9fa;
+            background: var(--light);
             padding: 20px;
             border-radius: 8px;
             margin: 24px 0;
             text-align: center;
             font-family: 'Cambria Math', serif;
             font-size: 18px;
-            color: var(--dark);
+            color: var(--text);
             border: 1px solid var(--border);
         }
     </style>
@@ -798,16 +936,23 @@
                 <span class="logo-text">CATrend Analyzer</span>
             </a>
             
-            <nav class="nav-tabs">
-                <button class="tab-btn active" data-tab="home">
-                    <i class="fas fa-home"></i>
-                    <span>About</span>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
                 </button>
-                <button class="tab-btn" data-tab="analysis">
-                    <i class="fas fa-calculator"></i>
-                    <span>Analysis</span>
-                </button>
-            </nav>
+                
+                <nav class="nav-tabs">
+                    <button class="tab-btn active" data-tab="home">
+                        <i class="fas fa-home"></i>
+                        <span>About</span>
+                    </button>
+                    <button class="tab-btn" data-tab="analysis">
+                        <i class="fas fa-calculator"></i>
+                        <span>Analysis</span>
+                    </button>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -850,10 +995,10 @@
                     
                     <div class="feature-item">
                         <i class="fas fa-chart-bar feature-icon"></i>
-                        <h3 class="feature-name">Data Visualization</h3>
+                        <h3 class="feature-name">Advanced Data Visualization</h3>
                         <p class="feature-desc">
-                            Generate clustered bar charts to visualize frequency 
-                            distributions and trends across ordered categories.
+                            Generate clustered bar charts with percentage labels. 
+                            Choose between row percentages, column percentages, or raw counts.
                         </p>
                     </div>
                     
@@ -876,11 +1021,11 @@
                     </div>
                     
                     <div class="feature-item">
-                        <i class="fas fa-sliders-h feature-icon"></i>
-                        <h3 class="feature-name">Flexible Configuration</h3>
+                        <i class="fas fa-palette feature-icon"></i>
+                        <h3 class="feature-name">Dark/Light Mode</h3>
                         <p class="feature-desc">
-                            Choose between two-sided or one-sided tests, apply continuity 
-                            correction, and customize analysis parameters.
+                            Switch between dark and light themes for comfortable viewing 
+                            in different lighting conditions.
                         </p>
                     </div>
                 </div>
@@ -899,7 +1044,7 @@
                 </div>
                 
                 <div style="margin-top: 24px;">
-                    <h3 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 16px;">
+                    <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 16px;">
                         Where:
                     </h3>
                     <ul style="color: var(--secondary); line-height: 1.8; padding-left: 20px;">
@@ -911,264 +1056,29 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="citation-section">
+                <h2 class="citation-title">
+                    <i class="fas fa-book"></i>
+                    Citation & References
+                </h2>
+                <p style="color: var(--text); margin-bottom: 16px;">
+                    If you use CATrend Analyzer in your research, please cite it as:
+                </p>
+                <div class="citation-box">
+                    Ibrahim, M. M. (2024). <em>CATrend Analyzer: Cochran-Armitage Trend Test Analysis Tool</em> [Computer software]. Retrieved from https://catrend-analyzer.com
+                </div>
+                <p style="color: var(--secondary); font-size: 14px; margin-top: 16px;">
+                    <strong>Software Information:</strong> This software was developed using JavaScript, HTML5, and CSS3. 
+                    The statistical calculations are based on the exact Cochran-Armitage formula. 
+                    Last updated: December 2024.
+                </p>
+            </div>
         </section>
 
-        <!-- Analysis Tab -->
+        <!-- Analysis Tab (Initially empty, will be populated by JavaScript) -->
         <section id="analysis" class="tab-content">
-            <div class="card">
-                <h2 class="card-title">
-                    <i class="fas fa-table"></i>
-                    Contingency Table Input
-                </h2>
-                
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i>
-                    <div>
-                        <strong>Instructions:</strong> Enter your contingency table data below. 
-                        Rows represent different outcomes (e.g., Success/Failure). 
-                        Columns represent ordered groups (e.g., Treatment levels 1, 2, 3).
-                        Enter frequency counts in the cells.
-                    </div>
-                </div>
-                
-                <!-- Table Controls -->
-                <div class="table-controls">
-                    <div class="control-group">
-                        <div class="group-title">Row Management</div>
-                        <div class="button-group">
-                            <button class="btn btn-success" id="addRowBtn">
-                                <i class="fas fa-plus"></i>
-                                Add Row
-                            </button>
-                            <button class="btn btn-danger" id="removeRowBtn" disabled>
-                                <i class="fas fa-minus"></i>
-                                Remove Row
-                            </button>
-                        </div>
-                        <div class="header-inputs">
-                            <div class="header-group">
-                                <div class="header-group-title">
-                                    <i class="fas fa-list"></i>
-                                    Row Headers (Outcomes):
-                                </div>
-                                <div id="rowHeadersContainer">
-                                    <!-- Row headers will be added here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <div class="group-title">Column Management</div>
-                        <div class="button-group">
-                            <button class="btn btn-success" id="addColBtn">
-                                <i class="fas fa-plus"></i>
-                                Add Column
-                            </button>
-                            <button class="btn btn-danger" id="removeColBtn" disabled>
-                                <i class="fas fa-minus"></i>
-                                Remove Column
-                            </button>
-                        </div>
-                        <div class="header-inputs">
-                            <div class="header-group">
-                                <div class="header-group-title">
-                                    <i class="fas fa-columns"></i>
-                                    Column Headers (Ordered Groups):
-                                </div>
-                                <div id="colHeadersContainer">
-                                    <!-- Column headers will be added here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Contingency Table -->
-                <div class="table-container">
-                    <table class="data-table" id="contingencyTable">
-                        <thead id="tableHeader">
-                            <!-- Table header will be populated -->
-                        </thead>
-                        <tbody id="tableBody">
-                            <!-- Table body will be populated -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Analysis Configuration -->
-            <div class="analysis-controls">
-                <div class="analysis-group">
-                    <h3 class="card-title" style="margin-bottom: 20px;">
-                        <i class="fas fa-cog"></i>
-                        Test Configuration
-                    </h3>
-                    
-                    <div>
-                        <label style="display: block; font-weight: 500; color: var(--dark); margin-bottom: 12px;">
-                            Test Type:
-                        </label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="testType" value="two.sided" checked>
-                                <span>Two-sided test</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="testType" value="one.sided.increasing">
-                                <span>One-sided (increasing trend)</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="testType" value="one.sided.decreasing">
-                                <span>One-sided (decreasing trend)</span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 24px;">
-                        <label class="checkbox-option">
-                            <input type="checkbox" id="continuityCorrection">
-                            <span>Apply continuity correction</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="analysis-group">
-                    <h3 class="card-title" style="margin-bottom: 20px;">
-                        <i class="fas fa-info-circle"></i>
-                        Test Information
-                    </h3>
-                    
-                    <p style="color: var(--secondary); line-height: 1.6; margin-bottom: 20px;">
-                        The Cochran-Armitage test detects trends in proportions across ordered groups. 
-                        Enter your data in the table above, then run the analysis.
-                    </p>
-                    
-                    <div class="formula-box" style="font-size: 16px; padding: 16px;">
-                        Z = Σ yⱼ(xⱼ - x̄) / √[p̄(1-p̄) Σ nⱼ(xⱼ - x̄)²]
-                    </div>
-                </div>
-            </div>
-
-            <!-- Run Analysis Button -->
-            <div class="run-analysis">
-                <button class="run-btn" id="runAnalysisBtn">
-                    <i class="fas fa-play"></i>
-                    Run Cochran-Armitage Test
-                </button>
-                
-                <div class="alert alert-warning" id="dataWarning" style="display: none; margin-top: 16px;">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div>Please enter valid numeric data in all table cells before running analysis.</div>
-                </div>
-            </div>
-
-            <!-- Results Section -->
-            <div class="results-section" id="resultsSection">
-                <div class="card">
-                    <h2 class="card-title">
-                        <i class="fas fa-chart-line"></i>
-                        Analysis Results
-                    </h2>
-                    
-                    <!-- Statistics -->
-                    <div class="results-grid">
-                        <div class="result-item">
-                            <h3 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 20px;">
-                                Test Statistics
-                            </h3>
-                            <div class="stat-box">
-                                <div class="stat-value" id="zStat">0.000</div>
-                                <div class="stat-label">Z-statistic</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-value" id="chiSquare">0.000</div>
-                                <div class="stat-label">Chi-square (χ²)</div>
-                            </div>
-                        </div>
-                        
-                        <div class="result-item">
-                            <h3 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 20px;">
-                                Statistical Significance
-                            </h3>
-                            <div class="stat-box">
-                                <div class="stat-value" id="pValue">1.000</div>
-                                <div class="stat-label">P-value</div>
-                            </div>
-                            <div style="margin-top: 20px; background: #f8f9fa; padding: 16px; border-radius: 8px;">
-                                <div style="font-weight: 500; color: var(--dark); margin-bottom: 8px;">
-                                    Test Parameters:
-                                </div>
-                                <div style="color: var(--secondary); font-size: 14px; line-height: 1.6;">
-                                    • Sample size: <span id="sampleSize">0</span><br>
-                                    • Number of groups: <span id="numGroups">0</span><br>
-                                    • Test type: <span id="testTypeDisplay">Two-sided</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Significance Interpretation -->
-                    <div id="significanceBox" class="significance-box not-significant">
-                        <div class="significance-content">
-                            <i class="fas fa-times-circle significance-icon" style="color: var(--danger);"></i>
-                            <div class="significance-text">
-                                <div class="significance-title">No Significant Trend Detected</div>
-                                <div id="significanceText" style="color: var(--dark);">
-                                    The analysis does not show a statistically significant trend across groups.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Interpretation -->
-                    <div class="interpretation">
-                        <div class="interpretation-title">
-                            <i class="fas fa-lightbulb"></i>
-                            Statistical Interpretation
-                        </div>
-                        <p id="interpretationText" style="color: var(--dark); line-height: 1.6; margin-bottom: 16px;">
-                            The Cochran-Armitage trend test examines whether there is a linear trend in proportions 
-                            across ordered groups. Results will appear here after running the analysis.
-                        </p>
-                        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1);">
-                            <div style="font-weight: 500; color: var(--dark); margin-bottom: 8px;">
-                                Practical Implications:
-                            </div>
-                            <p id="practicalImplications" style="color: var(--dark); line-height: 1.6;">
-                                Based on your data and test configuration, practical implications will be provided here.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <!-- Visualization -->
-                    <div style="margin-top: 32px;">
-                        <h3 style="font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
-                            <i class="fas fa-chart-bar"></i>
-                            Data Visualization
-                        </h3>
-                        <div class="chart-container">
-                            <canvas id="analysisChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Export Section -->
-                <div class="export-section">
-                    <h3 class="export-title">
-                        <i class="fas fa-file-word"></i>
-                        Export Results
-                    </h3>
-                    <p class="export-desc">
-                        Download a complete analysis report in Microsoft Word format including the contingency table, 
-                        statistical results, interpretation, and visualization.
-                    </p>
-                    <button class="export-btn" id="exportWordBtn">
-                        <i class="fas fa-download"></i>
-                        Export to Microsoft Word
-                    </button>
-                </div>
-            </div>
+            <!-- Content will be generated by JavaScript -->
         </section>
     </main>
 
@@ -1176,793 +1086,1255 @@
     <footer class="main-footer">
         <div class="footer-content">
             <div class="developer-info">
-                <div class="developer-name">Mudasir Mohammed Ibrahim</div>
-                <div class="developer-title">Registered Nurse & Statistical Tool Developer</div>
-                <a href="mailto:mudassiribrahim30@gmail.com" class="contact-email">
-                    mudassiribrahim30@gmail.com
-                </a>
+                <div class="developer-name">Mudasir Mohammed Ibrahim, RN</div>
+                <div class="developer-title">Statistical Analysis Tool Developer & Healthcare Professional</div>
+                
+                <div class="contact-info">
+                    <p style="color: var(--secondary); margin-bottom: 12px;">
+                        For questions, suggestions, or collaboration inquiries:
+                    </p>
+                    <a href="mailto:mudassiribrahim30@gmail.com" class="contact-email">
+                        <i class="fas fa-envelope"></i>
+                        mudassiribrahim30@gmail.com
+                    </a>
+                    <br>
+                    <a href="#" class="contact-email" style="font-size: 14px;">
+                        <i class="fas fa-globe"></i>
+                        Visit my website
+                    </a>
+                </div>
             </div>
+            
             <div class="copyright">
-                © 2024 CATrend Analyzer. All rights reserved.
+                © <span id="currentYear">2024</span> CATrend Analyzer. All rights reserved.<br>
+                This tool is designed for educational and research purposes.
             </div>
         </div>
     </footer>
 
     <script>
-        // Initialize table with sample data
-        const initialData = {
-            rows: ['Success', 'Failure'],
-            cols: ['Level 1', 'Level 2', 'Level 3'],
-            data: [
-                [10, 25, 30],
-                [30, 15, 10]
-            ]
-        };
-
-        let currentData = JSON.parse(JSON.stringify(initialData));
-        let chartInstance = null;
-
-        // DOM Elements
-        const tableBody = document.getElementById('tableBody');
-        const tableHeader = document.getElementById('tableHeader');
-        const addRowBtn = document.getElementById('addRowBtn');
-        const removeRowBtn = document.getElementById('removeRowBtn');
-        const addColBtn = document.getElementById('addColBtn');
-        const removeColBtn = document.getElementById('removeColBtn');
-        const runAnalysisBtn = document.getElementById('runAnalysisBtn');
-        const resultsSection = document.getElementById('resultsSection');
-        const exportWordBtn = document.getElementById('exportWordBtn');
-        const rowHeadersContainer = document.getElementById('rowHeadersContainer');
-        const colHeadersContainer = document.getElementById('colHeadersContainer');
-        const dataWarning = document.getElementById('dataWarning');
-
-        // Initialize the application
-        function initializeApp() {
-            updateTable();
-            updateHeaders();
-            updateControls();
-            setupEventListeners();
-            setupTabSwitching();
-        }
-
-        // Update table display
-        function updateTable() {
-            // Clear existing content
-            tableHeader.innerHTML = '';
-            tableBody.innerHTML = '';
+        // Initialize theme toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
             
-            // Create header row
-            const headerRow = document.createElement('tr');
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('catrend-theme');
             
-            // Empty corner cell
-            const emptyHeader = document.createElement('th');
-            emptyHeader.textContent = '';
-            headerRow.appendChild(emptyHeader);
+            // Apply saved theme or system preference
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+            }
             
-            // Column headers
-            currentData.cols.forEach((col, colIndex) => {
-                const th = document.createElement('th');
-                th.textContent = col;
-                headerRow.appendChild(th);
+            themeToggle.addEventListener('click', function() {
+                const isDark = document.body.classList.toggle('dark-mode');
+                localStorage.setItem('catrend-theme', isDark ? 'dark' : 'light');
+                themeToggle.innerHTML = isDark 
+                    ? '<i class="fas fa-sun"></i><span>Light Mode</span>'
+                    : '<i class="fas fa-moon"></i><span>Dark Mode</span>';
             });
             
-            // Total column header
-            const totalHeader = document.createElement('th');
-            totalHeader.textContent = 'Total';
-            totalHeader.className = 'total-cell';
-            headerRow.appendChild(totalHeader);
+            // Tab switching functionality
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
             
-            tableHeader.appendChild(headerRow);
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Show selected tab content
+                    const activeTab = document.getElementById(tabId);
+                    activeTab.classList.add('active');
+                    
+                    // If analysis tab is clicked, load the analysis content
+                    if (tabId === 'analysis' && !window.analysisLoaded) {
+                        loadAnalysisContent();
+                        window.analysisLoaded = true;
+                    }
+                });
+            });
             
-            // Create data rows
-            currentData.rows.forEach((row, rowIndex) => {
-                const tr = document.createElement('tr');
+            // Initialize analysisLoaded flag
+            window.analysisLoaded = false;
+            
+            // Load analysis content function
+            function loadAnalysisContent() {
+                const analysisTab = document.getElementById('analysis');
                 
-                // Row header cell
-                const rowHeader = document.createElement('td');
-                rowHeader.className = 'total-cell';
-                rowHeader.textContent = row;
-                tr.appendChild(rowHeader);
+                // Create the analysis content
+                analysisTab.innerHTML = `
+                    <div class="card">
+                        <h2 class="card-title">
+                            <i class="fas fa-table"></i>
+                            Contingency Table Input
+                        </h2>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>Instructions:</strong> Enter your contingency table data below. 
+                                Rows represent different outcomes (e.g., Success/Failure). 
+                                Columns represent ordered groups (e.g., Treatment levels 1, 2, 3).
+                                Enter frequency counts in the cells.
+                            </div>
+                        </div>
+                        
+                        <!-- Table Controls -->
+                        <div class="table-controls">
+                            <div class="control-group">
+                                <div class="group-title">Row Management</div>
+                                <div class="button-group">
+                                    <button class="btn btn-success" id="addRowBtn">
+                                        <i class="fas fa-plus"></i>
+                                        Add Row
+                                    </button>
+                                    <button class="btn btn-danger" id="removeRowBtn">
+                                        <i class="fas fa-minus"></i>
+                                        Remove Row
+                                    </button>
+                                </div>
+                                <div class="header-inputs">
+                                    <div class="header-group">
+                                        <div class="header-group-title">
+                                            <i class="fas fa-list"></i>
+                                            Row Headers (Outcomes):
+                                        </div>
+                                        <div id="rowHeadersContainer">
+                                            <!-- Row headers will be added here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <div class="group-title">Column Management</div>
+                                <div class="button-group">
+                                    <button class="btn btn-success" id="addColBtn">
+                                        <i class="fas fa-plus"></i>
+                                        Add Column
+                                    </button>
+                                    <button class="btn btn-danger" id="removeColBtn">
+                                        <i class="fas fa-minus"></i>
+                                        Remove Column
+                                    </button>
+                                </div>
+                                <div class="header-inputs">
+                                    <div class="header-group">
+                                        <div class="header-group-title">
+                                            <i class="fas fa-columns"></i>
+                                            Column Headers (Ordered Groups):
+                                        </div>
+                                        <div id="colHeadersContainer">
+                                            <!-- Column headers will be added here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contingency Table -->
+                        <div class="table-container">
+                            <table class="data-table" id="contingencyTable">
+                                <thead id="tableHeader">
+                                    <!-- Table header will be populated -->
+                                </thead>
+                                <tbody id="tableBody">
+                                    <!-- Table body will be populated -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Configuration -->
+                    <div class="analysis-controls">
+                        <div class="analysis-group">
+                            <h3 class="card-title" style="margin-bottom: 20px;">
+                                <i class="fas fa-cog"></i>
+                                Test Configuration
+                            </h3>
+                            
+                            <div>
+                                <label style="display: block; font-weight: 500; color: var(--text); margin-bottom: 12px;">
+                                    Test Type:
+                                </label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="testType" value="two.sided" checked>
+                                        <span>Two-sided test</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="testType" value="one.sided.increasing">
+                                        <span>One-sided (increasing trend)</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="testType" value="one.sided.decreasing">
+                                        <span>One-sided (decreasing trend)</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 24px;">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" id="continuityCorrection">
+                                    <span>Apply continuity correction</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-group">
+                            <h3 class="card-title" style="margin-bottom: 20px;">
+                                <i class="fas fa-chart-bar"></i>
+                                Chart Options
+                            </h3>
+                            
+                            <div class="checkbox-group">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" id="showCounts" checked>
+                                    <span>Show counts on bars</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" id="showRowPercent">
+                                    <span>Show row percentages</span>
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" id="showColPercent" checked>
+                                    <span>Show column percentages</span>
+                                </label>
+                            </div>
+                            
+                            <div class="formula-box" style="font-size: 16px; padding: 16px; margin-top: 20px;">
+                                Z = Σ yⱼ(xⱼ - x̄) / √[p̄(1-p̄) Σ nⱼ(xⱼ - x̄)²]
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Run Analysis Button -->
+                    <div class="run-analysis">
+                        <button class="run-btn" id="runAnalysisBtn">
+                            <i class="fas fa-play"></i>
+                            Run Cochran-Armitage Test
+                        </button>
+                        <div class="alert alert-warning" id="dataWarning" style="display: none; margin-top: 16px;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>Please enter valid numeric data in all table cells before running analysis.</div>
+                        </div>
+                    </div>
+
+                    <!-- Results Section (Initially hidden) -->
+                    <div class="results-section" id="resultsSection">
+                        <!-- Results will be populated here -->
+                    </div>
+                `;
                 
-                // Data cells
-                let rowTotal = 0;
-                currentData.data[rowIndex].forEach((cell, colIndex) => {
-                    const td = document.createElement('td');
-                    const input = document.createElement('input');
-                    input.type = 'number';
-                    input.min = '0';
-                    input.value = cell;
-                    input.addEventListener('input', (e) => {
-                        const value = parseInt(e.target.value) || 0;
-                        currentData.data[rowIndex][colIndex] = value;
-                        updateRowTotal(tr, rowIndex);
-                        updateColTotals();
+                // Now initialize the analysis functionality
+                initializeAnalysis();
+            }
+            
+            // Initialize analysis functionality
+            function initializeAnalysis() {
+                // Initial table data
+                const initialData = {
+                    rows: ['Success', 'Failure'],
+                    cols: ['Level 1', 'Level 2', 'Level 3'],
+                    data: [
+                        [10, 25, 30],
+                        [30, 15, 10]
+                    ]
+                };
+
+                let currentData = JSON.parse(JSON.stringify(initialData));
+                let chartInstance = null;
+
+                // Update table display
+                function updateTable() {
+                    const tableHeader = document.getElementById('tableHeader');
+                    const tableBody = document.getElementById('tableBody');
+                    const rowHeadersContainer = document.getElementById('rowHeadersContainer');
+                    const colHeadersContainer = document.getElementById('colHeadersContainer');
+                    
+                    // Clear existing content
+                    tableHeader.innerHTML = '';
+                    tableBody.innerHTML = '';
+                    rowHeadersContainer.innerHTML = '';
+                    colHeadersContainer.innerHTML = '';
+                    
+                    // Create header row
+                    const headerRow = document.createElement('tr');
+                    
+                    // Empty corner cell
+                    const emptyHeader = document.createElement('th');
+                    emptyHeader.textContent = '';
+                    headerRow.appendChild(emptyHeader);
+                    
+                    // Column headers
+                    currentData.cols.forEach((col, colIndex) => {
+                        const th = document.createElement('th');
+                        th.textContent = col;
+                        headerRow.appendChild(th);
                     });
-                    td.appendChild(input);
-                    tr.appendChild(td);
-                    rowTotal += cell;
-                });
-                
-                // Row total cell
-                const rowTotalCell = document.createElement('td');
-                rowTotalCell.className = 'total-cell';
-                rowTotalCell.textContent = rowTotal;
-                rowTotalCell.id = `rowTotal-${rowIndex}`;
-                tr.appendChild(rowTotalCell);
-                
-                tableBody.appendChild(tr);
-            });
-            
-            // Add column totals row
-            const totalsRow = document.createElement('tr');
-            const totalsLabel = document.createElement('td');
-            totalsLabel.textContent = 'Total';
-            totalsLabel.className = 'total-cell';
-            totalsRow.appendChild(totalsLabel);
-            
-            let grandTotal = 0;
-            currentData.cols.forEach((_, colIndex) => {
-                const colTotal = currentData.data.reduce((sum, row) => sum + row[colIndex], 0);
-                const td = document.createElement('td');
-                td.className = 'total-cell';
-                td.textContent = colTotal;
-                td.id = `colTotal-${colIndex}`;
-                totalsRow.appendChild(td);
-                grandTotal += colTotal;
-            });
-            
-            const grandTotalCell = document.createElement('td');
-            grandTotalCell.className = 'total-cell';
-            grandTotalCell.textContent = grandTotal;
-            grandTotalCell.id = 'grandTotal';
-            totalsRow.appendChild(grandTotalCell);
-            
-            tableBody.appendChild(totalsRow);
-            
-            // Update header inputs
-            updateHeaders();
-        }
-
-        // Update header inputs
-        function updateHeaders() {
-            // Update row headers
-            rowHeadersContainer.innerHTML = '';
-            currentData.rows.forEach((row, index) => {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.value = row;
-                input.className = 'header-input';
-                input.placeholder = `Row ${index + 1}`;
-                input.addEventListener('change', (e) => {
-                    currentData.rows[index] = e.target.value;
-                    updateTable();
-                });
-                rowHeadersContainer.appendChild(input);
-            });
-            
-            // Update column headers
-            colHeadersContainer.innerHTML = '';
-            currentData.cols.forEach((col, index) => {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.value = col;
-                input.className = 'header-input';
-                input.placeholder = `Column ${index + 1}`;
-                input.addEventListener('change', (e) => {
-                    currentData.cols[index] = e.target.value;
-                    updateTable();
-                });
-                colHeadersContainer.appendChild(input);
-            });
-        }
-
-        // Update row total
-        function updateRowTotal(rowElement, rowIndex) {
-            const rowData = currentData.data[rowIndex];
-            const rowTotal = rowData.reduce((sum, cell) => sum + cell, 0);
-            const rowTotalCell = document.getElementById(`rowTotal-${rowIndex}`);
-            if (rowTotalCell) {
-                rowTotalCell.textContent = rowTotal;
-            }
-            updateGrandTotal();
-        }
-
-        // Update column totals
-        function updateColTotals() {
-            currentData.cols.forEach((_, colIndex) => {
-                const colTotal = currentData.data.reduce((sum, row) => sum + row[colIndex], 0);
-                const colTotalCell = document.getElementById(`colTotal-${colIndex}`);
-                if (colTotalCell) {
-                    colTotalCell.textContent = colTotal;
+                    
+                    // Total column header
+                    const totalHeader = document.createElement('th');
+                    totalHeader.textContent = 'Total';
+                    totalHeader.className = 'total-cell';
+                    headerRow.appendChild(totalHeader);
+                    
+                    tableHeader.appendChild(headerRow);
+                    
+                    // Create data rows
+                    currentData.rows.forEach((row, rowIndex) => {
+                        const tr = document.createElement('tr');
+                        
+                        // Row header cell
+                        const rowHeader = document.createElement('td');
+                        rowHeader.className = 'total-cell';
+                        rowHeader.textContent = row;
+                        tr.appendChild(rowHeader);
+                        
+                        // Data cells
+                        let rowTotal = 0;
+                        currentData.data[rowIndex].forEach((cell, colIndex) => {
+                            const td = document.createElement('td');
+                            const input = document.createElement('input');
+                            input.type = 'number';
+                            input.min = '0';
+                            input.value = cell;
+                            input.addEventListener('input', (e) => {
+                                const value = parseInt(e.target.value) || 0;
+                                currentData.data[rowIndex][colIndex] = value;
+                                updateRowTotal(tr, rowIndex);
+                                updateColTotals();
+                            });
+                            td.appendChild(input);
+                            tr.appendChild(td);
+                            rowTotal += cell;
+                        });
+                        
+                        // Row total cell
+                        const rowTotalCell = document.createElement('td');
+                        rowTotalCell.className = 'total-cell';
+                        rowTotalCell.textContent = rowTotal;
+                        rowTotalCell.id = `rowTotal-${rowIndex}`;
+                        tr.appendChild(rowTotalCell);
+                        
+                        tableBody.appendChild(tr);
+                    });
+                    
+                    // Add column totals row
+                    const totalsRow = document.createElement('tr');
+                    const totalsLabel = document.createElement('td');
+                    totalsLabel.textContent = 'Total';
+                    totalsLabel.className = 'total-cell';
+                    totalsRow.appendChild(totalsLabel);
+                    
+                    let grandTotal = 0;
+                    currentData.cols.forEach((_, colIndex) => {
+                        const colTotal = currentData.data.reduce((sum, row) => sum + row[colIndex], 0);
+                        const td = document.createElement('td');
+                        td.className = 'total-cell';
+                        td.textContent = colTotal;
+                        td.id = `colTotal-${colIndex}`;
+                        totalsRow.appendChild(td);
+                        grandTotal += colTotal;
+                    });
+                    
+                    const grandTotalCell = document.createElement('td');
+                    grandTotalCell.className = 'total-cell';
+                    grandTotalCell.textContent = grandTotal;
+                    grandTotalCell.id = 'grandTotal';
+                    totalsRow.appendChild(grandTotalCell);
+                    
+                    tableBody.appendChild(totalsRow);
+                    
+                    // Update header inputs
+                    currentData.rows.forEach((row, index) => {
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.value = row;
+                        input.className = 'header-input';
+                        input.placeholder = `Row ${index + 1}`;
+                        input.addEventListener('change', (e) => {
+                            currentData.rows[index] = e.target.value;
+                            updateTable();
+                        });
+                        rowHeadersContainer.appendChild(input);
+                    });
+                    
+                    currentData.cols.forEach((col, index) => {
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.value = col;
+                        input.className = 'header-input';
+                        input.placeholder = `Column ${index + 1}`;
+                        input.addEventListener('change', (e) => {
+                            currentData.cols[index] = e.target.value;
+                            updateTable();
+                        });
+                        colHeadersContainer.appendChild(input);
+                    });
                 }
-            });
-            updateGrandTotal();
-        }
 
-        // Update grand total
-        function updateGrandTotal() {
-            const grandTotal = currentData.data.flat().reduce((sum, cell) => sum + cell, 0);
-            const grandTotalCell = document.getElementById('grandTotal');
-            if (grandTotalCell) {
-                grandTotalCell.textContent = grandTotal;
-            }
-        }
+                // Update row total
+                function updateRowTotal(rowElement, rowIndex) {
+                    const rowData = currentData.data[rowIndex];
+                    const rowTotal = rowData.reduce((sum, cell) => sum + cell, 0);
+                    const rowTotalCell = document.getElementById(`rowTotal-${rowIndex}`);
+                    if (rowTotalCell) {
+                        rowTotalCell.textContent = rowTotal;
+                    }
+                    updateGrandTotal();
+                }
 
-        // Update control button states
-        function updateControls() {
-            removeRowBtn.disabled = currentData.rows.length <= 1;
-            removeColBtn.disabled = currentData.cols.length <= 1;
-        }
+                // Update column totals
+                function updateColTotals() {
+                    currentData.cols.forEach((_, colIndex) => {
+                        const colTotal = currentData.data.reduce((sum, row) => sum + row[colIndex], 0);
+                        const colTotalCell = document.getElementById(`colTotal-${colIndex}`);
+                        if (colTotalCell) {
+                            colTotalCell.textContent = colTotal;
+                        }
+                    });
+                    updateGrandTotal();
+                }
 
-        // Add a new row
-        function addRow() {
-            const newRowName = `Outcome ${currentData.rows.length + 1}`;
-            currentData.rows.push(newRowName);
-            const newRow = new Array(currentData.cols.length).fill(0);
-            currentData.data.push(newRow);
-            updateTable();
-            updateControls();
-        }
-
-        // Remove last row
-        function removeRow() {
-            if (currentData.rows.length > 1) {
-                currentData.rows.pop();
-                currentData.data.pop();
-                updateTable();
-                updateControls();
-            }
-        }
-
-        // Add a new column
-        function addColumn() {
-            const newColName = `Level ${currentData.cols.length + 1}`;
-            currentData.cols.push(newColName);
-            currentData.data.forEach(row => row.push(0));
-            updateTable();
-            updateControls();
-        }
-
-        // Remove last column
-        function removeColumn() {
-            if (currentData.cols.length > 1) {
-                currentData.cols.pop();
-                currentData.data.forEach(row => row.pop());
-                updateTable();
-                updateControls();
-            }
-        }
-
-        // Cochran-Armitage Test Implementation
-        function performCochranArmitageTest() {
-            const testType = document.querySelector('input[name="testType"]:checked').value;
-            const continuityCorrection = document.getElementById('continuityCorrection').checked;
-            
-            const { rows, cols, data } = currentData;
-            
-            // Calculate totals
-            const N = data.flat().reduce((a, b) => a + b, 0);
-            const k = cols.length;
-            
-            // Assign scores (1, 2, 3, ...)
-            const x = Array.from({length: k}, (_, i) => i + 1);
-            
-            // Calculate column totals (nj) and success counts (yj)
-            const nj = Array(k).fill(0);
-            const yj = Array(k).fill(0);
-            
-            for (let j = 0; j < k; j++) {
-                for (let i = 0; i < rows.length; i++) {
-                    nj[j] += data[i][j];
-                    if (i === 0) { // First row is "success"
-                        yj[j] += data[i][j];
+                // Update grand total
+                function updateGrandTotal() {
+                    const grandTotal = currentData.data.flat().reduce((sum, cell) => sum + cell, 0);
+                    const grandTotalCell = document.getElementById('grandTotal');
+                    if (grandTotalCell) {
+                        grandTotalCell.textContent = grandTotal;
                     }
                 }
-            }
-            
-            // Calculate observed response probabilities
-            const pj = yj.map((y, idx) => nj[idx] > 0 ? y / nj[idx] : 0);
-            
-            // Calculate weighted mean of scores
-            const x_bar = nj.reduce((sum, n, idx) => sum + n * x[idx], 0) / N;
-            
-            // Calculate numerator: Σyj(xj - x̄)
-            const numerator = yj.reduce((sum, y, idx) => sum + y * (x[idx] - x_bar), 0);
-            
-            // Calculate overall proportion
-            const p_bar = yj.reduce((a, b) => a + b, 0) / N;
-            
-            // Calculate variance term
-            const variance_term = p_bar * (1 - p_bar) * nj.reduce((sum, n, idx) => sum + n * Math.pow(x[idx] - x_bar, 2), 0);
-            
-            // Apply continuity correction if requested
-            let c = 0;
-            if (continuityCorrection) {
-                c = 0.5;
-            }
-            
-            // Calculate z-statistic
-            let z;
-            if (testType === 'one.sided.decreasing') {
-                z = (numerator + c) / Math.sqrt(variance_term);
-            } else {
-                z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
-            }
-            
-            // Calculate p-value
-            let p_value;
-            const normalCDF = (z) => {
-                return (1 + erf(z / Math.sqrt(2))) / 2;
-            };
-            
-            if (testType === 'two.sided') {
-                p_value = 2 * (1 - normalCDF(Math.abs(z)));
-            } else if (testType === 'one.sided.increasing') {
-                p_value = 1 - normalCDF(z);
-            } else if (testType === 'one.sided.decreasing') {
-                p_value = normalCDF(z);
-            }
-            
-            // Calculate chi-square
-            const chi_square = z * z;
-            
-            return {
-                z: z,
-                chi_square: chi_square,
-                p_value: p_value,
-                N: N,
-                k: k,
-                x_bar: x_bar,
-                p_bar: p_bar,
-                numerator: numerator,
-                variance_term: variance_term,
-                testType: testType,
-                continuityCorrection: continuityCorrection,
-                correctionFactor: c,
-                nj: nj,
-                yj: yj,
-                pj: pj
-            };
-        }
 
-        // Error function approximation
-        function erf(x) {
-            const a1 =  0.254829592;
-            const a2 = -0.284496736;
-            const a3 =  1.421413741;
-            const a4 = -1.453152027;
-            const a5 =  1.061405429;
-            const p  =  0.3275911;
-            
-            const sign = (x >= 0) ? 1 : -1;
-            x = Math.abs(x);
-            
-            const t = 1.0 / (1.0 + p * x);
-            const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
-            
-            return sign * y;
-        }
+                // Add a new row
+                function addRow() {
+                    const newRowName = `Outcome ${currentData.rows.length + 1}`;
+                    currentData.rows.push(newRowName);
+                    const newRow = new Array(currentData.cols.length).fill(0);
+                    currentData.data.push(newRow);
+                    updateTable();
+                }
 
-        // Update results display
-        function updateResults(results) {
-            // Update statistics
-            document.getElementById('zStat').textContent = results.z.toFixed(4);
-            document.getElementById('chiSquare').textContent = results.chi_square.toFixed(4);
-            document.getElementById('pValue').textContent = results.p_value.toFixed(6);
-            document.getElementById('sampleSize').textContent = results.N;
-            document.getElementById('numGroups').textContent = results.k;
-            
-            // Update test parameters
-            const testTypeText = {
-                'two.sided': 'Two-sided',
-                'one.sided.increasing': 'One-sided (increasing)',
-                'one.sided.decreasing': 'One-sided (decreasing)'
-            }[results.testType];
-            
-            document.getElementById('testTypeDisplay').textContent = testTypeText;
-            
-            // Update significance display
-            const significanceBox = document.getElementById('significanceBox');
-            const significanceText = document.getElementById('significanceText');
-            const significanceIcon = significanceBox.querySelector('i');
-            
-            if (results.p_value < 0.05) {
-                significanceBox.className = 'significance-box significant';
-                significanceIcon.className = 'fas fa-check-circle';
-                significanceIcon.style.color = 'var(--success)';
-                significanceText.textContent = `Statistically significant trend detected (p = ${results.p_value.toFixed(4)})`;
-            } else {
-                significanceBox.className = 'significance-box not-significant';
-                significanceIcon.className = 'fas fa-times-circle';
-                significanceIcon.style.color = 'var(--danger)';
-                significanceText.textContent = `No significant trend detected (p = ${results.p_value.toFixed(4)})`;
-            }
-            
-            // Update interpretation
-            const interpretationText = document.getElementById('interpretationText');
-            const practicalImplications = document.getElementById('practicalImplications');
-            
-            let interpretation = '';
-            if (results.p_value < 0.001) {
-                interpretation = `There is a highly significant trend in proportions across the ordered groups (p < 0.001). `;
-            } else if (results.p_value < 0.01) {
-                interpretation = `There is a very significant trend in proportions across the ordered groups (p < 0.01). `;
-            } else if (results.p_value < 0.05) {
-                interpretation = `There is a statistically significant trend in proportions across the ordered groups (p < 0.05). `;
-            } else {
-                interpretation = `No statistically significant trend was detected across the ordered groups (p = ${results.p_value.toFixed(4)}). `;
-            }
-            
-            if (results.testType === 'one.sided.increasing' && results.p_value < 0.05) {
-                interpretation += `The evidence supports an increasing trend across groups.`;
-            } else if (results.testType === 'one.sided.decreasing' && results.p_value < 0.05) {
-                interpretation += `The evidence supports a decreasing trend across groups.`;
-            } else if (results.p_value < 0.05) {
-                interpretation += `There is a systematic relationship between the outcome and the ordered groups.`;
-            } else {
-                interpretation += `This suggests no systematic relationship between the outcome and the ordered groups.`;
-            }
-            
-            interpretationText.textContent = interpretation;
-            
-            // Practical implications
-            let implications = '';
-            if (results.p_value < 0.05) {
-                implications = `Based on these results, there is statistical evidence to support a trend across the groups. `;
-                implications += `In practical terms, this suggests that the outcome variable shows a systematic change across the ordered categories. `;
-                implications += `The direction of the trend (increasing or decreasing) depends on your research question and the nature of the variables.`;
-            } else {
-                implications = `These results do not provide statistical evidence for a trend across the groups. `;
-                implications += `In practical terms, this suggests that the outcome variable does not show a systematic change across the ordered categories. `;
-                implications += `Consider whether sample size may be a factor, or whether different groupings might reveal different patterns.`;
-            }
-            
-            practicalImplications.textContent = implications;
-            
-            // Show results section
-            resultsSection.classList.add('active');
-            
-            // Update chart
-            updateChart();
-            
-            // Scroll to results
-            setTimeout(() => {
-                resultsSection.scrollIntoView({ behavior: 'smooth' });
-            }, 100);
-        }
+                // Remove last row
+                function removeRow() {
+                    if (currentData.rows.length > 1) {
+                        currentData.rows.pop();
+                        currentData.data.pop();
+                        updateTable();
+                    }
+                }
 
-        // Update chart
-        function updateChart() {
-            const ctx = document.getElementById('analysisChart').getContext('2d');
-            
-            // Destroy existing chart
-            if (chartInstance) {
-                chartInstance.destroy();
-            }
-            
-            // Prepare data
-            const labels = currentData.cols;
-            const datasets = currentData.rows.map((row, rowIndex) => ({
-                label: row,
-                data: currentData.data[rowIndex],
-                backgroundColor: rowIndex === 0 ? 'rgba(52, 152, 219, 0.8)' : 'rgba(234, 67, 53, 0.8)',
-                borderColor: rowIndex === 0 ? 'rgba(52, 152, 219, 1)' : 'rgba(234, 67, 53, 1)',
-                borderWidth: 1
-            }));
-            
-            // Create new chart
-            chartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Frequency Distribution Across Groups',
-                            font: {
-                                size: 16,
-                                family: 'Inter'
-                            },
-                            color: '#202124'
-                        },
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                font: {
-                                    family: 'Inter'
-                                },
-                                padding: 20
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Groups',
-                                font: {
-                                    family: 'Inter',
-                                    size: 14,
-                                    weight: '600'
-                                },
-                                color: '#202124'
-                            },
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Frequency',
-                                font: {
-                                    family: 'Inter',
-                                    size: 14,
-                                    weight: '600'
-                                },
-                                color: '#202124'
-                            },
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0
+                // Add a new column
+                function addColumn() {
+                    const newColName = `Level ${currentData.cols.length + 1}`;
+                    currentData.cols.push(newColName);
+                    currentData.data.forEach(row => row.push(0));
+                    updateTable();
+                }
+
+                // Remove last column
+                function removeColumn() {
+                    if (currentData.cols.length > 1) {
+                        currentData.cols.pop();
+                        currentData.data.forEach(row => row.pop());
+                        updateTable();
+                    }
+                }
+
+                // Error function approximation
+                function erf(x) {
+                    const a1 =  0.254829592;
+                    const a2 = -0.284496736;
+                    const a3 =  1.421413741;
+                    const a4 = -1.453152027;
+                    const a5 =  1.061405429;
+                    const p  =  0.3275911;
+                    
+                    const sign = (x >= 0) ? 1 : -1;
+                    x = Math.abs(x);
+                    
+                    const t = 1.0 / (1.0 + p * x);
+                    const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+                    
+                    return sign * y;
+                }
+
+                // Perform Cochran-Armitage test
+                function performCochranArmitageTest() {
+                    const testType = document.querySelector('input[name="testType"]:checked').value;
+                    const continuityCorrection = document.getElementById('continuityCorrection').checked;
+                    
+                    const { rows, cols, data } = currentData;
+                    
+                    // Calculate totals
+                    const N = data.flat().reduce((a, b) => a + b, 0);
+                    const k = cols.length;
+                    
+                    // Assign scores (1, 2, 3, ...)
+                    const x = Array.from({length: k}, (_, i) => i + 1);
+                    
+                    // Calculate column totals (nj) and success counts (yj)
+                    const nj = Array(k).fill(0);
+                    const yj = Array(k).fill(0);
+                    
+                    for (let j = 0; j < k; j++) {
+                        for (let i = 0; i < rows.length; i++) {
+                            nj[j] += data[i][j];
+                            if (i === 0) { // First row is "success"
+                                yj[j] += data[i][j];
                             }
                         }
                     }
+                    
+                    // Calculate observed response probabilities
+                    const pj = yj.map((y, idx) => nj[idx] > 0 ? y / nj[idx] : 0);
+                    
+                    // Calculate weighted mean of scores
+                    const x_bar = nj.reduce((sum, n, idx) => sum + n * x[idx], 0) / N;
+                    
+                    // Calculate numerator: Σyj(xj - x̄)
+                    const numerator = yj.reduce((sum, y, idx) => sum + y * (x[idx] - x_bar), 0);
+                    
+                    // Calculate overall proportion
+                    const p_bar = yj.reduce((a, b) => a + b, 0) / N;
+                    
+                    // Calculate variance term
+                    const variance_term = p_bar * (1 - p_bar) * nj.reduce((sum, n, idx) => sum + n * Math.pow(x[idx] - x_bar, 2), 0);
+                    
+                    // Apply continuity correction if requested
+                    let c = 0;
+                    if (continuityCorrection) {
+                        c = 0.5;
+                    }
+                    
+                    // Calculate z-statistic
+                    let z;
+                    if (testType === 'one.sided.decreasing') {
+                        z = (numerator + c) / Math.sqrt(variance_term);
+                    } else {
+                        z = (Math.abs(numerator) - c) / Math.sqrt(variance_term);
+                    }
+                    
+                    // Calculate p-value
+                    let p_value;
+                    const normalCDF = (z) => {
+                        return (1 + erf(z / Math.sqrt(2))) / 2;
+                    };
+                    
+                    if (testType === 'two.sided') {
+                        p_value = 2 * (1 - normalCDF(Math.abs(z)));
+                    } else if (testType === 'one.sided.increasing') {
+                        p_value = 1 - normalCDF(z);
+                    } else if (testType === 'one.sided.decreasing') {
+                        p_value = normalCDF(z);
+                    }
+                    
+                    // Calculate chi-square
+                    const chi_square = z * z;
+                    
+                    // Calculate percentages for chart
+                    const rowTotals = data.map(row => row.reduce((a, b) => a + b, 0));
+                    const colTotals = nj;
+                    const rowPercentages = data.map((row, i) => 
+                        row.map(cell => rowTotals[i] > 0 ? (cell / rowTotals[i] * 100).toFixed(1) : '0.0')
+                    );
+                    const colPercentages = data.map((row, i) => 
+                        row.map((cell, j) => colTotals[j] > 0 ? (cell / colTotals[j] * 100).toFixed(1) : '0.0')
+                    );
+                    
+                    return {
+                        z: z,
+                        chi_square: chi_square,
+                        p_value: p_value,
+                        N: N,
+                        k: k,
+                        x_bar: x_bar,
+                        p_bar: p_bar,
+                        numerator: numerator,
+                        variance_term: variance_term,
+                        testType: testType,
+                        continuityCorrection: continuityCorrection,
+                        correctionFactor: c,
+                        nj: nj,
+                        yj: yj,
+                        pj: pj,
+                        rowTotals: rowTotals,
+                        colTotals: colTotals,
+                        rowPercentages: rowPercentages,
+                        colPercentages: colPercentages
+                    };
                 }
-            });
-        }
 
-        // Validate data before running analysis
-        function validateData() {
-            const allCells = document.querySelectorAll('#contingencyTable input[type="number"]');
-            let hasData = false;
-            
-            for (const cell of allCells) {
-                const value = parseInt(cell.value) || 0;
-                if (value > 0) {
-                    hasData = true;
-                    break;
+                // Update results display
+                function updateResults(results) {
+                    const resultsSection = document.getElementById('resultsSection');
+                    const showCounts = document.getElementById('showCounts').checked;
+                    const showRowPercent = document.getElementById('showRowPercent').checked;
+                    const showColPercent = document.getElementById('showColPercent').checked;
+                    
+                    // Generate interpretation
+                    let interpretation = '';
+                    if (results.p_value < 0.001) {
+                        interpretation = `There is a highly significant trend in proportions across the ordered groups (p < 0.001). `;
+                    } else if (results.p_value < 0.01) {
+                        interpretation = `There is a very significant trend in proportions across the ordered groups (p < 0.01). `;
+                    } else if (results.p_value < 0.05) {
+                        interpretation = `There is a statistically significant trend in proportions across the ordered groups (p < 0.05). `;
+                    } else {
+                        interpretation = `No statistically significant trend was detected across the ordered groups (p = ${results.p_value.toFixed(4)}). `;
+                    }
+                    
+                    if (results.testType === 'one.sided.increasing' && results.p_value < 0.05) {
+                        interpretation += `The evidence supports an increasing trend across groups.`;
+                    } else if (results.testType === 'one.sided.decreasing' && results.p_value < 0.05) {
+                        interpretation += `The evidence supports a decreasing trend across groups.`;
+                    } else if (results.p_value < 0.05) {
+                        interpretation += `There is a systematic relationship between the outcome and the ordered groups.`;
+                    } else {
+                        interpretation += `This suggests no systematic relationship between the outcome and the ordered groups.`;
+                    }
+                    
+                    // Generate practical implications
+                    let implications = '';
+                    if (results.p_value < 0.05) {
+                        implications = `Based on these results, there is statistical evidence to support a trend across the groups. In practical terms, this suggests that the outcome variable shows a systematic change across the ordered categories. The direction of the trend (increasing or decreasing) depends on your research question and the nature of the variables.`;
+                    } else {
+                        implications = `These results do not provide statistical evidence for a trend across the groups. In practical terms, this suggests that the outcome variable does not show a systematic change across the ordered categories. Consider whether sample size may be a factor, or whether different groupings might reveal different patterns.`;
+                    }
+                    
+                    // Test type display
+                    const testTypeText = {
+                        'two.sided': 'Two-sided',
+                        'one.sided.increasing': 'One-sided (increasing)',
+                        'one.sided.decreasing': 'One-sided (decreasing)'
+                    }[results.testType];
+                    
+                    // Create results HTML
+                    resultsSection.innerHTML = `
+                        <div class="card">
+                            <h2 class="card-title">
+                                <i class="fas fa-chart-line"></i>
+                                Analysis Results
+                            </h2>
+                            
+                            <div class="results-grid">
+                                <div class="result-item">
+                                    <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 20px;">
+                                        Test Statistics
+                                    </h3>
+                                    <div class="stat-box">
+                                        <div class="stat-value">${results.z.toFixed(4)}</div>
+                                        <div class="stat-label">Z-statistic</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-value">${results.chi_square.toFixed(4)}</div>
+                                        <div class="stat-label">Chi-square (χ²)</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="result-item">
+                                    <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 20px;">
+                                        Statistical Significance
+                                    </h3>
+                                    <div class="stat-box">
+                                        <div class="stat-value">${results.p_value.toFixed(6)}</div>
+                                        <div class="stat-label">P-value</div>
+                                    </div>
+                                    <div style="margin-top: 20px; background: var(--light); padding: 16px; border-radius: 8px;">
+                                        <div style="font-weight: 500; color: var(--text); margin-bottom: 8px;">
+                                            Test Parameters:
+                                        </div>
+                                        <div style="color: var(--secondary); font-size: 14px; line-height: 1.6;">
+                                            • Sample size: ${results.N}<br>
+                                            • Number of groups: ${results.k}<br>
+                                            • Test type: ${testTypeText}<br>
+                                            • Continuity correction: ${results.continuityCorrection ? 'Yes' : 'No'}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Significance Interpretation -->
+                            <div class="significance-box ${results.p_value < 0.05 ? 'significant' : 'not-significant'}">
+                                <div class="significance-content">
+                                    <i class="fas fa-${results.p_value < 0.05 ? 'check' : 'times'}-circle significance-icon" 
+                                       style="color: ${results.p_value < 0.05 ? 'var(--success)' : 'var(--danger)'};"></i>
+                                    <div class="significance-text">
+                                        <div class="significance-title">
+                                            ${results.p_value < 0.05 ? 'Significant Trend Detected' : 'No Significant Trend Detected'}
+                                        </div>
+                                        <div style="color: var(--text);">
+                                            ${results.p_value < 0.05 ? 
+                                                `Statistically significant trend detected (p = ${results.p_value.toFixed(4)})` : 
+                                                `No significant trend detected (p = ${results.p_value.toFixed(4)})`}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Interpretation -->
+                            <div class="interpretation">
+                                <div class="interpretation-title">
+                                    <i class="fas fa-lightbulb"></i>
+                                    Statistical Interpretation
+                                </div>
+                                <p style="color: var(--text); line-height: 1.6; margin-bottom: 16px;">
+                                    ${interpretation}
+                                </p>
+                                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(138, 180, 248, 0.3);">
+                                    <div style="font-weight: 500; color: var(--text); margin-bottom: 8px;">
+                                        Practical Implications:
+                                    </div>
+                                    <p style="color: var(--text); line-height: 1.6;">
+                                        ${implications}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Visualization -->
+                            <div style="margin-top: 32px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <h3 style="font-size: 18px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 12px;">
+                                        <i class="fas fa-chart-bar"></i>
+                                        Data Visualization
+                                    </h3>
+                                    <div class="chart-actions">
+                                        <button class="btn" id="downloadChartBtn">
+                                            <i class="fas fa-download"></i>
+                                            Download Chart
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="analysisChart"></canvas>
+                                </div>
+                                <p style="text-align: center; color: var(--secondary); margin-top: 15px; font-size: 14px;">
+                                    <i class="fas fa-info-circle"></i> 
+                                    Chart shows frequency distribution with selected labels (${showCounts ? 'counts' : ''}${showCounts && (showRowPercent || showColPercent) ? ', ' : ''}${showRowPercent ? 'row %' : ''}${showRowPercent && showColPercent ? ', ' : ''}${showColPercent ? 'column %' : ''})
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Export Section -->
+                        <div class="export-section">
+                            <h3 class="export-title">
+                                <i class="fas fa-file-word"></i>
+                                Export Complete Report
+                            </h3>
+                            <p class="export-desc">
+                                Download a complete analysis report in Microsoft Word format including the contingency table, 
+                                statistical results, interpretation, visualization, and proper citation.
+                            </p>
+                            <button class="export-btn" id="exportWordBtn">
+                                <i class="fas fa-download"></i>
+                                Export to Microsoft Word (Includes Chart)
+                            </button>
+                        </div>
+                        
+                        <!-- Citation Section -->
+                        <div class="citation-section">
+                            <h2 class="citation-title">
+                                <i class="fas fa-book"></i>
+                                Citation for Research
+                            </h2>
+                            <p style="color: var(--text); margin-bottom: 16px;">
+                                If you use CATrend Analyzer in your research, please cite it as:
+                            </p>
+                            <div class="citation-box">
+                                Ibrahim, M. M. (2024). <em>CATrend Analyzer: Cochran-Armitage Trend Test Analysis Tool</em> [Computer software]. Retrieved from https://catrend-analyzer.com
+                            </div>
+                            <p style="color: var(--secondary); font-size: 14px; margin-top: 16px;">
+                                <strong>Software Information:</strong> This analysis was performed using CATrend Analyzer v1.0, 
+                                developed by Mudasir Mohammed Ibrahim. The software implements the exact Cochran-Armitage formula 
+                                (Z = Σ yⱼ(xⱼ - x̄) / √[p̄(1-p̄) Σ nⱼ(xⱼ - x̄)²]) for trend analysis in proportions across ordered categorical variables.
+                            </p>
+                        </div>
+                    `;
+                    
+                    // Show results section
+                    resultsSection.classList.add('active');
+                    
+                    // Update chart
+                    updateChart(results);
+                    
+                    // Setup event listeners for new buttons
+                    document.getElementById('downloadChartBtn').addEventListener('click', downloadChart);
+                    document.getElementById('exportWordBtn').addEventListener('click', exportToWord);
+                    
+                    // Scroll to results
+                    setTimeout(() => {
+                        resultsSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
                 }
-            }
-            
-            if (!hasData) {
-                dataWarning.style.display = 'flex';
-                return false;
-            }
-            
-            dataWarning.style.display = 'none';
-            return true;
-        }
 
-        // Export to Word
-        function exportToWord() {
-            const results = performCochranArmitageTest();
-            if (!results) return;
-            
-            const tableHTML = generateTableHTMLForExport();
-            const interpretation = document.getElementById('interpretationText').textContent;
-            const practicalImplications = document.getElementById('practicalImplications').textContent;
-            const significance = document.getElementById('significanceText').textContent;
-            
-            const content = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Cochran-Armitage Test Report</title>
-                    <style>
-                        body {
-                            font-family: 'Calibri', sans-serif;
-                            margin: 40px;
-                            line-height: 1.6;
-                            color: #202124;
-                        }
-                        h1 {
-                            color: #1a73e8;
-                            border-bottom: 2px solid #1a73e8;
-                            padding-bottom: 10px;
-                        }
-                        h2 {
-                            color: #202124;
-                            margin-top: 30px;
-                            padding-bottom: 5px;
-                            border-bottom: 1px solid #ddd;
-                        }
-                        table {
-                            border-collapse: collapse;
-                            width: 100%;
-                            margin: 20px 0;
-                            font-size: 11pt;
-                        }
-                        th, td {
-                            border: 1px solid #ddd;
-                            padding: 12px;
-                            text-align: center;
-                        }
-                        th {
-                            background-color: #f8f9fa;
-                            color: #202124;
-                            font-weight: bold;
-                        }
-                        .stat-box {
-                            background-color: #f8f9fa;
-                            padding: 15px;
-                            border-left: 4px solid #1a73e8;
-                            margin: 15px 0;
-                        }
-                        .significant {
-                            background-color: #e8f5e9;
-                            padding: 15px;
-                            border-radius: 4px;
-                            border-left: 4px solid #34a853;
-                        }
-                        .not-significant {
-                            background-color: #ffebee;
-                            padding: 15px;
-                            border-radius: 4px;
-                            border-left: 4px solid #ea4335;
-                        }
-                        .footer {
-                            margin-top: 40px;
-                            padding-top: 20px;
-                            border-top: 1px solid #ddd;
-                            font-size: 10pt;
-                            color: #666;
-                            text-align: center;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <h1>Cochran-Armitage Trend Test Report</h1>
-                    <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
+                // Update chart
+                function updateChart(results) {
+                    const ctx = document.getElementById('analysisChart').getContext('2d');
                     
-                    <h2>Contingency Table</h2>
-                    ${tableHTML}
+                    // Destroy existing chart
+                    if (chartInstance) {
+                        chartInstance.destroy();
+                    }
                     
-                    <h2>Statistical Results</h2>
-                    <div class="stat-box">
-                        <table style="width: 60%;">
-                            <tr>
-                                <th>Statistic</th>
-                                <th>Value</th>
-                            </tr>
-                            <tr>
-                                <td>Z-statistic</td>
-                                <td>${results.z.toFixed(4)}</td>
-                            </tr>
-                            <tr>
-                                <td>Chi-square (χ²)</td>
-                                <td>${results.chi_square.toFixed(4)}</td>
-                            </tr>
-                            <tr>
-                                <td>P-value</td>
-                                <td>${results.p_value.toFixed(6)}</td>
-                            </tr>
-                            <tr>
-                                <td>Sample Size (N)</td>
-                                <td>${results.N}</td>
-                            </tr>
-                            <tr>
-                                <td>Number of Groups (k)</td>
-                                <td>${results.k}</td>
-                            </tr>
-                        </table>
-                    </div>
+                    const showCounts = document.getElementById('showCounts').checked;
+                    const showRowPercent = document.getElementById('showRowPercent').checked;
+                    const showColPercent = document.getElementById('showColPercent').checked;
                     
-                    <h2>Significance Assessment</h2>
-                    <div class="${results.p_value < 0.05 ? 'significant' : 'not-significant'}">
-                        <strong>${significance}</strong>
-                    </div>
+                    // Prepare data
+                    const labels = currentData.cols;
+                    const datasets = currentData.rows.map((row, rowIndex) => {
+                        const data = currentData.data[rowIndex];
+                        
+                        // Generate labels based on selected options
+                        const dataLabels = data.map((value, colIndex) => {
+                            let label = '';
+                            if (showCounts) {
+                                label += value;
+                            }
+                            if (showRowPercent && showCounts) {
+                                label += '\n(' + results.rowPercentages[rowIndex][colIndex] + '%)';
+                            } else if (showRowPercent) {
+                                label += results.rowPercentages[rowIndex][colIndex] + '%';
+                            }
+                            if (showColPercent && showCounts) {
+                                label += '\n[' + results.colPercentages[rowIndex][colIndex] + '%]';
+                            } else if (showColPercent) {
+                                label += '[' + results.colPercentages[rowIndex][colIndex] + '%]';
+                            }
+                            return label.trim();
+                        });
+                        
+                        return {
+                            label: row,
+                            data: data,
+                            backgroundColor: rowIndex === 0 ? 
+                                'rgba(52, 168, 83, 0.7)' : 'rgba(234, 67, 53, 0.7)',
+                            borderColor: rowIndex === 0 ? 
+                                'rgba(52, 168, 83, 1)' : 'rgba(234, 67, 53, 1)',
+                            borderWidth: 2
+                        };
+                    });
                     
-                    <h2>Interpretation</h2>
-                    <p>${interpretation}</p>
-                    
-                    <h2>Practical Implications</h2>
-                    <p>${practicalImplications}</p>
-                    
-                    <h2>Test Parameters</h2>
-                    <ul>
-                        <li><strong>Test Type:</strong> ${document.getElementById('testTypeDisplay').textContent}</li>
-                        <li><strong>Continuity Correction:</strong> ${results.continuityCorrection ? 'Applied' : 'Not applied'}</li>
-                        <li><strong>Degrees of Freedom:</strong> 1</li>
-                    </ul>
-                    
-                    <div class="footer">
-                        <p>Report generated by CATrend Analyzer | Developed by Mudasir Mohammed Ibrahim</p>
-                        <p>For questions or support: mudassiribrahim30@gmail.com</p>
-                    </div>
-                </body>
-                </html>
-            `;
-            
-            const blob = new Blob([content], { type: 'application/msword' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Cochran-Armitage-Report-${new Date().toISOString().slice(0,10)}.doc`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
+                    // Create new chart
+                    chartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: datasets
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Frequency Distribution with Percentages',
+                                    font: {
+                                        size: 16,
+                                        family: 'Inter'
+                                    },
+                                    color: getComputedStyle(document.body).getPropertyValue('--text')
+                                },
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        font: {
+                                            family: 'Inter'
+                                        },
+                                        color: getComputedStyle(document.body).getPropertyValue('--text')
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            label += context.parsed.y;
+                                            
+                                            if (showRowPercent) {
+                                                const rowIndex = context.datasetIndex;
+                                                const colIndex = context.dataIndex;
+                                                label += ` (${results.rowPercentages[rowIndex][colIndex]}% of row)`;
+                                            }
+                                            if (showColPercent) {
+                                                const rowIndex = context.datasetIndex;
+                                                const colIndex = context.dataIndex;
+                                                label += ` [${results.colPercentages[rowIndex][colIndex]}% of column]`;
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Groups',
+                                        font: {
+                                            family: 'Inter',
+                                            size: 14,
+                                            weight: '600'
+                                        },
+                                        color: getComputedStyle(document.body).getPropertyValue('--text')
+                                    },
+                                    grid: {
+                                        color: getComputedStyle(document.body).getPropertyValue('--border')
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Frequency',
+                                        font: {
+                                            family: 'Inter',
+                                            size: 14,
+                                            weight: '600'
+                                        },
+                                        color: getComputedStyle(document.body).getPropertyValue('--text')
+                                    },
+                                    beginAtZero: true,
+                                    ticks: {
+                                        precision: 0
+                                    },
+                                    grid: {
+                                        color: getComputedStyle(document.body).getPropertyValue('--border')
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
 
-        function generateTableHTMLForExport() {
-            let html = '<table>';
-            
-            // Header row
-            html += '<tr><th></th>';
-            currentData.cols.forEach(col => {
-                html += `<th>${col}</th>`;
-            });
-            html += '<th>Total</th></tr>';
-            
-            // Data rows
-            currentData.rows.forEach((row, rowIndex) => {
-                html += `<tr><th>${row}</th>`;
-                currentData.data[rowIndex].forEach(cell => {
-                    html += `<td>${cell}</td>`;
-                });
-                
-                // Row total
-                const rowTotal = currentData.data[rowIndex].reduce((a, b) => a + b, 0);
-                html += `<td><strong>${rowTotal}</strong></td></tr>`;
-            });
-            
-            // Column totals row
-            html += '<tr><th>Total</th>';
-            currentData.cols.forEach((_, colIndex) => {
-                const colTotal = currentData.data.reduce((sum, row) => sum + row[colIndex], 0);
-                html += `<td><strong>${colTotal}</strong></td>`;
-            });
-            
-            // Grand total
-            const grandTotal = currentData.data.flat().reduce((a, b) => a + b, 0);
-            html += `<td><strong>${grandTotal}</strong></td></tr>`;
-            
-            html += '</table>';
-            return html;
-        }
+                // Download chart as image
+                function downloadChart() {
+                    if (chartInstance) {
+                        const link = document.createElement('a');
+                        link.download = 'catrend-analysis-chart.png';
+                        link.href = chartInstance.toBase64Image();
+                        link.click();
+                    }
+                }
 
-        // Setup event listeners
-        function setupEventListeners() {
-            addRowBtn.addEventListener('click', addRow);
-            removeRowBtn.addEventListener('click', removeRow);
-            addColBtn.addEventListener('click', addColumn);
-            removeColBtn.addEventListener('click', removeColumn);
-            runAnalysisBtn.addEventListener('click', () => {
-                if (validateData()) {
+                // Export to Word
+                function exportToWord() {
                     const results = performCochranArmitageTest();
-                    updateResults(results);
+                    if (!results) return;
+                    
+                    // Create chart image for Word document
+                    let chartImage = '';
+                    if (chartInstance) {
+                        chartImage = `<img src="${chartInstance.toBase64Image()}" alt="Analysis Chart" style="max-width: 100%; height: auto; margin: 20px 0;">`;
+                    }
+                    
+                    // Generate table HTML
+                    let tableHTML = '<table>';
+                    tableHTML += '<tr><th></th>';
+                    currentData.cols.forEach(col => {
+                        tableHTML += `<th>${col}</th>`;
+                    });
+                    tableHTML += '<th>Total</th></tr>';
+                    
+                    currentData.rows.forEach((row, rowIndex) => {
+                        tableHTML += `<tr><th>${row}</th>`;
+                        currentData.data[rowIndex].forEach(cell => {
+                            tableHTML += `<td>${cell}</td>`;
+                        });
+                        tableHTML += `<td><strong>${currentData.data[rowIndex].reduce((a, b) => a + b, 0)}</strong></td></tr>`;
+                    });
+                    
+                    tableHTML += '<tr><th>Total</th>';
+                    currentData.cols.forEach((_, colIndex) => {
+                        const colTotal = currentData.data.reduce((sum, row) => sum + row[colIndex], 0);
+                        tableHTML += `<td><strong>${colTotal}</strong></td>`;
+                    });
+                    tableHTML += `<td><strong>${currentData.data.flat().reduce((a, b) => a + b, 0)}</strong></td></tr>`;
+                    tableHTML += '</table>';
+                    
+                    // Generate interpretation
+                    let interpretation = '';
+                    if (results.p_value < 0.001) {
+                        interpretation = `There is a highly significant trend in proportions across the ordered groups (p < 0.001). `;
+                    } else if (results.p_value < 0.01) {
+                        interpretation = `There is a very significant trend in proportions across the ordered groups (p < 0.01). `;
+                    } else if (results.p_value < 0.05) {
+                        interpretation = `There is a statistically significant trend in proportions across the ordered groups (p < 0.05). `;
+                    } else {
+                        interpretation = `No statistically significant trend was detected across the ordered groups (p = ${results.p_value.toFixed(4)}). `;
+                    }
+                    
+                    if (results.testType === 'one.sided.increasing' && results.p_value < 0.05) {
+                        interpretation += `The evidence supports an increasing trend across groups.`;
+                    } else if (results.testType === 'one.sided.decreasing' && results.p_value < 0.05) {
+                        interpretation += `The evidence supports a decreasing trend across groups.`;
+                    } else if (results.p_value < 0.05) {
+                        interpretation += `There is a systematic relationship between the outcome and the ordered groups.`;
+                    } else {
+                        interpretation += `This suggests no systematic relationship between the outcome and the ordered groups.`;
+                    }
+                    
+                    const testTypeText = {
+                        'two.sided': 'Two-sided',
+                        'one.sided.increasing': 'One-sided (increasing)',
+                        'one.sided.decreasing': 'One-sided (decreasing)'
+                    }[results.testType];
+                    
+                    const content = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>Cochran-Armitage Test Report</title>
+                            <style>
+                                body {
+                                    font-family: 'Calibri', sans-serif;
+                                    margin: 40px;
+                                    line-height: 1.6;
+                                    color: #202124;
+                                }
+                                h1 {
+                                    color: #1a73e8;
+                                    border-bottom: 2px solid #1a73e8;
+                                    padding-bottom: 10px;
+                                }
+                                h2 {
+                                    color: #202124;
+                                    margin-top: 30px;
+                                    padding-bottom: 5px;
+                                    border-bottom: 1px solid #ddd;
+                                }
+                                table {
+                                    border-collapse: collapse;
+                                    width: 100%;
+                                    margin: 20px 0;
+                                    font-size: 11pt;
+                                }
+                                th, td {
+                                    border: 1px solid #ddd;
+                                    padding: 12px;
+                                    text-align: center;
+                                }
+                                th {
+                                    background-color: #f8f9fa;
+                                    color: #202124;
+                                    font-weight: bold;
+                                }
+                                .stat-box {
+                                    background-color: #f8f9fa;
+                                    padding: 15px;
+                                    border-left: 4px solid #1a73e8;
+                                    margin: 15px 0;
+                                }
+                                .significant {
+                                    background-color: #e8f5e9;
+                                    padding: 15px;
+                                    border-radius: 4px;
+                                    border-left: 4px solid #34a853;
+                                }
+                                .not-significant {
+                                    background-color: #ffebee;
+                                    padding: 15px;
+                                    border-radius: 4px;
+                                    border-left: 4px solid #ea4335;
+                                }
+                                .footer {
+                                    margin-top: 40px;
+                                    padding-top: 20px;
+                                    border-top: 1px solid #ddd;
+                                    font-size: 10pt;
+                                    color: #666;
+                                    text-align: center;
+                                }
+                                .citation {
+                                    background-color: #f8f9fa;
+                                    padding: 15px;
+                                    border-left: 4px solid #666;
+                                    margin: 20px 0;
+                                    font-family: 'Times New Roman', serif;
+                                    font-size: 12pt;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <h1>Cochran-Armitage Trend Test Report</h1>
+                            <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
+                            <p><strong>Software:</strong> CATrend Analyzer v1.0</p>
+                            
+                            <h2>Contingency Table</h2>
+                            ${tableHTML}
+                            
+                            <h2>Statistical Results</h2>
+                            <div class="stat-box">
+                                <table style="width: 60%;">
+                                    <tr>
+                                        <th>Statistic</th>
+                                        <th>Value</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Z-statistic</td>
+                                        <td>${results.z.toFixed(4)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chi-square (χ²)</td>
+                                        <td>${results.chi_square.toFixed(4)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>P-value</td>
+                                        <td>${results.p_value.toFixed(6)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sample Size (N)</td>
+                                        <td>${results.N}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number of Groups (k)</td>
+                                        <td>${results.k}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <h2>Significance Assessment</h2>
+                            <div class="${results.p_value < 0.05 ? 'significant' : 'not-significant'}">
+                                <strong>${results.p_value < 0.05 ? 'Statistically significant trend detected' : 'No significant trend detected'} (p = ${results.p_value.toFixed(4)})</strong>
+                            </div>
+                            
+                            <h2>Interpretation</h2>
+                            <p>${interpretation}</p>
+                            
+                            <h2>Data Visualization</h2>
+                            ${chartImage}
+                            
+                            <h2>Test Parameters</h2>
+                            <ul>
+                                <li><strong>Test Type:</strong> ${testTypeText}</li>
+                                <li><strong>Continuity Correction:</strong> ${results.continuityCorrection ? 'Applied' : 'Not applied'}</li>
+                                <li><strong>Degrees of Freedom:</strong> 1</li>
+                                <li><strong>Chart Labels:</strong> ${document.getElementById('showCounts').checked ? 'Counts ' : ''}${document.getElementById('showRowPercent').checked ? 'Row % ' : ''}${document.getElementById('showColPercent').checked ? 'Column %' : ''}</li>
+                            </ul>
+                            
+                            <h2>Citation</h2>
+                            <div class="citation">
+                                Ibrahim, M. M. (2024). <em>CATrend Analyzer: Cochran-Armitage Trend Test Analysis Tool</em> [Computer software]. Retrieved from https://catrend-analyzer.com
+                            </div>
+                            
+                            <div class="footer">
+                                <p><strong>Software Information:</strong> This analysis was performed using CATrend Analyzer v1.0, 
+                                developed by Mudasir Mohammed Ibrahim. The software implements the exact Cochran-Armitage formula 
+                                for trend analysis in proportions across ordered categorical variables.</p>
+                                <p>Report generated by CATrend Analyzer | Developed by Mudasir Mohammed Ibrahim</p>
+                                <p>Contact: mudassiribrahim30@gmail.com</p>
+                                <p>© ${new Date().getFullYear()} CATrend Analyzer. All rights reserved.</p>
+                            </div>
+                        </body>
+                        </html>
+                    `;
+                    
+                    const blob = new Blob([content], { type: 'application/msword' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `Cochran-Armitage-Report-${new Date().toISOString().slice(0,10)}.doc`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
                 }
-            });
-            exportWordBtn.addEventListener('click', exportToWord);
-        }
 
-        // Setup tab switching
-        function setupTabSwitching() {
-            document.querySelectorAll('.tab-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove active class from all tabs and buttons
-                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                // Validate data before running analysis
+                function validateData() {
+                    const allCells = document.querySelectorAll('#contingencyTable input[type="number"]');
+                    let hasData = false;
                     
-                    // Add active class to clicked button
-                    button.classList.add('active');
+                    for (const cell of allCells) {
+                        const value = parseInt(cell.value) || 0;
+                        if (value > 0) {
+                            hasData = true;
+                            break;
+                        }
+                    }
                     
-                    // Show corresponding content
-                    const tabId = button.getAttribute('data-tab');
-                    document.getElementById(tabId).classList.add('active');
+                    const dataWarning = document.getElementById('dataWarning');
+                    if (!hasData) {
+                        dataWarning.style.display = 'flex';
+                        return false;
+                    }
+                    
+                    dataWarning.style.display = 'none';
+                    return true;
+                }
+
+                // Run analysis
+                function runAnalysis() {
+                    if (validateData()) {
+                        const results = performCochranArmitageTest();
+                        updateResults(results);
+                    }
+                }
+
+                // Initialize the table
+                updateTable();
+                
+                // Add event listeners
+                document.getElementById('addRowBtn').addEventListener('click', addRow);
+                document.getElementById('removeRowBtn').addEventListener('click', removeRow);
+                document.getElementById('addColBtn').addEventListener('click', addColumn);
+                document.getElementById('removeColBtn').addEventListener('click', removeColumn);
+                document.getElementById('runAnalysisBtn').addEventListener('click', runAnalysis);
+                
+                // Add event listeners for chart options
+                document.getElementById('showCounts').addEventListener('change', function() {
+                    if (chartInstance) {
+                        const results = performCochranArmitageTest();
+                        updateChart(results);
+                    }
                 });
-            });
-        }
-
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', initializeApp);
+                
+                document.getElementById('showRowPercent').addEventListener('change', function() {
+                    if (chartInstance) {
+                        const results = performCochranArmitageTest();
+                        updateChart(results);
+                    }
+                });
+                
+                document.getElementById('showColPercent').addEventListener('change', function() {
+                    if (chartInstance) {
+                        const results = performCochranArmitageTest();
+                        updateChart(results);
+                    }
+                });
+                
+                // Add welcome alert
+                setTimeout(() => {
+                    const alert = document.createElement('div');
+                    alert.className = 'alert alert-info';
+                    alert.innerHTML = `
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <strong>Welcome to CATrend Analyzer Analysis!</strong> 
+                            Start by modifying the table data, then click "Run Cochran-Armitage Test" to analyze trends across groups.
+                        </div>
+                    `;
+                    document.querySelector('#analysis .card').prepend(alert);
+                    
+                    // Remove alert after 10 seconds
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 10000);
+                }, 1000);
+            }
+        });
     </script>
 </body>
 </html>
