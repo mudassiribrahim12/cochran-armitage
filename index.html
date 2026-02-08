@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>CATrend Analyzer – Open-Source Cochran–Armitage Trend Test (CATT) Web-Based Software</title>
+    <title>CATrend Analyzer – Web tool for Cochran-Armitage Trend Test analysis</title>
     
     <!-- SEO Meta Tags -->
     <meta name="title" content="CATrend Analyzer">
@@ -1847,6 +1847,50 @@ li {
             border: 2px solid rgba(249, 171, 0, 0.3);
             color: var(--warning);
         }
+        
+                /* GitHub Button Styles */
+        .btn-github {
+            background: #24292e;
+            color: white;
+            border: 2px solid #24292e;
+        }
+        
+        .btn-github:hover {
+            background: #444d56;
+            border-color: #444d56;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(36, 41, 46, 0.3);
+        }
+        
+        .btn-github::after {
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent);
+        }
+        
+        /* Google Scholar Button Styles */
+        .btn-scholar {
+            background: #4285f4;
+            color: white;
+            border: 2px solid #4285f4;
+        }
+        
+        .btn-scholar:hover {
+            background: #3367d6;
+            border-color: #3367d6;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(66, 133, 244, 0.3);
+        }
+        
+        .btn-scholar::after {
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+        }
 
         /* Tutorial Steps */
         .tutorial-steps {
@@ -2272,10 +2316,13 @@ li {
                         <div class="hero-content">
                             <h1 class="hero-title">
                                 Cochran-Armitage Trend Test
-                                <span class="hero-subtitle">Professional Statistical Analysis</span>
+                                <span class="hero-subtitle">Professional Statistical Analysis Software</span>
                             </h1>
                             <p class="hero-description">
-                                Analyze trends in proportions across ordered categories. Free, open-source tool for clinical trials, epidemiology, and research.
+                                <strong>The first web-based tool to combine:</strong> Cochran-Armitage trend analysis, interactive contingency tables, professional reporting, and data visualization in one intuitive interface. 
+                                <span style="background: var(--primary-light); padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-weight: 600;">
+Free & open-source for clinical trials, epidemiology, and research.
+                                </span>
                             </p>
                             <div class="hero-actions">
                                 <button class="btn-primary" onclick="showSection('analysis'); return false;">
@@ -2936,120 +2983,103 @@ function calculateCochranArmitage(data, options) {
                     </div>
                 </div>
 
-                <div class="card">
+                            <div class="card">
                     <h2 class="card-title">
-                        <i class="fas fa-share-alt"></i>
-                        Contributing to CATrend Analyzer
+                        <i class="fas fa-user-circle"></i>
+                        About the Developer
                     </h2>
-
-                    <div style="display: flex; align-items: flex-start; gap: 1rem; background: var(--light); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border-left: 4px solid var(--primary);">
-                        <div style="flex-shrink: 0; padding-top: 0.25rem;">
-                            <i class="fab fa-github" style="font-size: 1.5rem; color: var(--primary);"></i>
+                        <div style="flex: 1; min-width: 300px;">
+                            <p style="color: var(--text); line-height: 1.7; margin-bottom: 1.5rem; font-size: 1.1rem;">
+                                My name is Mudasir Mohammed Ibrahim, and I am from Ghana.</strong> As a dedicated healthcare professional with a passion for data analysis and research methodology, I created CATrend Analyzer to bridge the gap between clinical practice and statistical analysis. My goal is to make advanced statistical tools accessible to healthcare professionals, researchers, and students without requiring extensive programming knowledge.
+                            </p>
+                            
+                            <div style="background: var(--light); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid var(--primary); margin-bottom: 1.5rem;">
+                                <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    Background & Expertise
+                                </h4>
+                                <ul style="color: var(--text); line-height: 1.7; padding-left: 1.5rem;">
+                                    <li>Registered Nurse with clinical experience in multiple healthcare settings</li>
+                                    <li>Health researcher focused on epidemiology and public health</li>
+                                    <li>Statistical analysis and research methodology</li>
+                                    <li>R programming and data visualization</li>
+                                    <li>Open-source software development</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div style="flex: 1;">
-                            <p style="color: var(--text); line-height: 1.6; margin-bottom: 0.75rem; font-weight: 600; font-size: 1rem;">
-                                Open Source Repository
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="background: var(--light); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
+                            <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-heartbeat"></i>
+                                Healthcare Vision
+                            </h4>
+                            <p style="color: var(--text); line-height: 1.6;">
+                                To improve healthcare outcomes through accessible data analysis tools that empower 
+                                medical professionals to make evidence-based decisions.
                             </p>
-                            <p style="color: var(--secondary); line-height: 1.5; margin-bottom: 1rem; font-size: 0.9rem;">
-                                CATrend Analyzer is hosted on GitHub. Visit the repository to explore the code, report issues, or contribute to the project.
+                        </div>
+                        
+                        <div style="background: var(--light); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
+                            <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-laptop-code"></i>
+                                Technical Approach
+                            </h4>
+                            <p style="color: var(--text); line-height: 1.6;">
+                                Developing user-friendly, open-source tools that implement rigorous statistical 
+                                methods while maintaining clinical relevance and practical applicability.
                             </p>
-                            <a href="https://github.com/mudassiribrahim12/cochran-armitage/blob/main/index.html" 
+                        </div>
+                        
+                        <div style="background: var(--light); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid var(--border);">
+                            <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-hands-helping"></i>
+                                Community Impact
+                            </h4>
+                            <p style="color: var(--text); line-height: 1.6;">
+                                Creating free resources that support healthcare research and education worldwide, 
+                                particularly in resource-limited settings.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(138, 180, 248, 0.1); padding: 1.5rem; border-radius: 0.75rem; border: 2px solid rgba(138, 180, 248, 0.3); margin-top: 2rem;">
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <i class="fas fa-bullhorn"></i>
+                            Get in Touch
+                        </h3>
+                        <p style="color: var(--text); line-height: 1.7; margin-bottom: 1.5rem;">
+Feel free to reach out through any of the following channels:
+                        </p>
+                        
+                                     <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <a href="mailto:mudassiribrahim30@gmail.com" 
+                               class="btn-primary" 
+                               style="padding: 0.75rem 1.5rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-envelope"></i>
+                                Email
+                            </a>
+                            
+                            <a href="https://github.com/mudassiribrahim30" 
                                target="_blank" 
                                rel="noopener noreferrer"
-                               style="display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--primary); padding: 0.5rem 1rem; border-radius: 0.25rem; text-decoration: none; font-weight: 600; font-size: 0.9rem; border: 1.5px solid var(--primary); transition: all 0.2s ease;"
-                               onmouseover="this.style.backgroundColor='var(--primary)'; this.style.color='white';"
-                               onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--primary)';">
+                               class="btn btn-github" 
+                               style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem;">
                                 <i class="fab fa-github"></i>
-                                View Repository
+                                GitHub
+                            </a>
+                            
+                            <a href="https://scholar.google.com/citations?user=xEFzAvgAAAAJ&hl=en" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               class="btn btn-scholar" 
+                               style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-graduation-cap"></i>
+                                Google Scholar
                             </a>
                         </div>
-                    </div>
-
-                    <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 1.25rem;">
-                        How to Contribute
-                    </h3>
-
-                    <p style="color: var(--text); line-height: 1.7; margin-bottom: 1.5rem;">
-                        CATrend Analyzer is open-source software. We welcome contributions from developers, 
-                        statisticians, and researchers to improve the tool.
-                    </p>
-
-                    <div class="tutorial-steps">
-                        <div class="tutorial-step">
-                            <strong>Fork the Repository</strong>
-                            <p style="color: var(--secondary); margin-top: 0.5rem;">
-                                Create your own fork of the CATrend Analyzer GitHub repository.
-                            </p>
                         </div>
-                        
-                        <div class="tutorial-step">
-                            <strong>Set Up Development Environment</strong>
-                            <p style="color: var(--secondary); margin-top: 0.5rem;">
-                                Clone the repository and set up a local development server.
-                            </p>
-                        </div>
-                        
-                        <div class="tutorial-step">
-                            <strong>Make Your Changes</strong>
-                            <p style="color: var(--secondary); margin-top: 0.5rem;">
-                                Implement new features, fix bugs, or improve documentation.
-                            </p>
-                        </div>
-                        
-                        <div class="tutorial-step">
-                            <strong>Test Thoroughly</strong>
-                            <p style="color: var(--secondary); margin-top: 0.5rem;">
-                                Test your changes with various data scenarios to ensure statistical accuracy.
-                            </p>
-                        </div>
-                        
-                        <div class="tutorial-step">
-                            <strong>Submit Pull Request</strong>
-                            <p style="color: var(--secondary); margin-top: 0.5rem;">
-                                Create a pull request with a clear description of your changes.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="code-block">
-// Example: Using the core calculation function in another application
-
-// Import the calculation function
-// Note: This requires extracting the statistical calculation module
-
-const catrendCalculator = {
-    calculateTest: function(data, options) {
-        // Implementation of Cochran-Armitage calculation
-        // Returns: {z, chiSquare, pValue, ...}
-    },
-    
-    validateData: function(data) {
-        // Validate contingency table data
-        // Returns: {valid: boolean, errors: array}
-    },
-    
-    generateReport: function(results, format) {
-        // Generate report in specified format
-        // Returns: report data
-    }
-};
-
-// Example usage
-const testData = {
-    rows: ['Success', 'Failure'],
-    cols: ['Group 1', 'Group 2', 'Group 3'],
-    data: [[10, 20, 30], [20, 10, 5]]
-};
-
-const options = {
-    testType: 'two.sided',
-    continuityCorrection: true
-};
-
-const results = catrendCalculator.calculateTest(testData, options);
-console.log('Z-statistic:', results.z);
-console.log('P-value:', results.pValue);
-                    </div>
                 </div>
             </section>
         </main>
@@ -3125,6 +3155,55 @@ console.log('P-value:', results.pValue);
                 total: [100, 100, 100, 100]
             }
         };
+        
+                // ============================================
+        // HEADER SCROLL BEHAVIOR - ONLY SHOW AT TOP
+        // ============================================
+        function initializeHeaderScroll() {
+            const header = document.querySelector('.app-header');
+            const scrollThreshold = 50; // Pixels from top to consider "at top"
+            
+            // Add transition for smooth hide/show
+            header.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            
+            function updateHeaderVisibility() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop <= scrollThreshold) {
+                    // At or near top - SHOW header
+                    header.style.transform = 'translateY(0)';
+                    header.style.opacity = '1';
+                    header.style.pointerEvents = 'auto';
+                } else {
+                    // Scrolled down - HIDE header
+                    header.style.transform = 'translateY(-100%)';
+                    header.style.opacity = '0';
+                    header.style.pointerEvents = 'none';
+                }
+            }
+            
+            // Initial check
+            updateHeaderVisibility();
+            
+            // Update on scroll
+            window.addEventListener('scroll', updateHeaderVisibility);
+            
+            // Also update on resize (for responsive adjustments)
+            window.addEventListener('resize', updateHeaderVisibility);
+            
+            // Optional: Show header briefly when clicking on navigation
+            document.querySelectorAll('.nav-link, .logo').forEach(element => {
+                element.addEventListener('click', function() {
+                    // Show header immediately when clicking navigation
+                    header.style.transform = 'translateY(0)';
+                    header.style.opacity = '1';
+                    header.style.pointerEvents = 'auto';
+                    
+                    // Then hide it after 3 seconds if not at top
+                    setTimeout(updateHeaderVisibility, 3000);
+                });
+            });
+        }
 
         // ============================================
         // MAIN INITIALIZATION FUNCTION
@@ -3152,6 +3231,9 @@ console.log('P-value:', results.pValue);
             
             // Initialize reset button
             initializeResetButton();
+            
+            // Initialize header scroll behavior (only shows at top)
+            initializeHeaderScroll();
             
             // Initialize analysisLoaded flag
             analysisLoaded = false;
@@ -4184,7 +4266,7 @@ console.log('P-value:', results.pValue);
                             <div style="text-align: center; margin-top: 1.5rem;">
                                 <button class="btn-primary" id="downloadChartBtn" style="padding: 1rem 2rem; font-size: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
                                     <i class="fas fa-download"></i>
-                                    Download Chart as Image
+                                    Download Chart (png)
                                 </button>
                             </div>
                             <p style="text-align: center; color: var(--secondary); margin-top: 1.25rem; font-size: 1rem; font-weight: 500;">
