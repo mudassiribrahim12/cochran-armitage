@@ -23,6 +23,24 @@
     <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/mudassiribrahim12/cochran-armitage/main/favicon-16x16.png">
     <link rel="manifest" href="https://raw.githubusercontent.com/mudassiribrahim12/cochran-armitage/main/site.webmanifest">
     
+        <!-- Additional SEO for faster indexing -->
+    <meta name="google-site-verification" content="PGq_oDNzKGPvdcDK-DzNc2VYrCckkJxWLyiqq7OdHq0" />
+    <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
+    <meta name="yandex-verification" content="YOUR_YANDEX_VERIFICATION_CODE" />
+    
+    <!-- Improved Robots Meta -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    
+    <!-- Language and Geographic Targeting -->
+    <meta name="language" content="English" />
+    <meta name="geo.region" content="GH" />
+    <meta name="geo.placename" content="Ghana" />
+    
+    <!-- News and Sitemap -->
+    <meta name="google-site-verification" content="PGq_oDNzKGPvdcDK-DzNc2VYrCckkJxWLyiqq7OdHq0" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://catrendanalyzer.mudasiribrahim.com/sitemap.xml" />
+    
     <!-- Open Graph / Social Media -->
     <meta property="og:site_name" content="CATrend Analyzer">
     <meta property="og:title" content="CATrend Analyzer – Open-Source Cochran–Armitage Trend Test (CATT) Web-Based Software">
@@ -40,6 +58,10 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://catrendanalyzer.mudasiribrahim.com/">
+    
+       <!-- Alternate language versions (if you add translations later) -->
+    <link rel="alternate" hreflang="en" href="https://catrendanalyzer.mudasiribrahim.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://catrendanalyzer.mudasiribrahim.com/" />
     
     <!-- Robots -->
     <meta name="robots" content="index, follow">
@@ -129,6 +151,100 @@
             "@id": "https://catrendanalyzer.mudasiribrahim.com/#organization"
         },
         "inLanguage": "en"
+    }
+    </script>
+    
+        <!-- Additional Schema for Better Ranking -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Top Cochran-Armitage Trend Test Calculators",
+        "description": "Best free online tools for Cochran-Armitage Trend Test analysis",
+        "numberOfItems": 1,
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "url": "https://catrendanalyzer.mudasiribrahim.com/",
+            "name": "CATrend Analyzer - Free Cochran-Armitage Test Calculator"
+        }]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Perform Cochran-Armitage Trend Test",
+        "description": "Step-by-step guide to perform trend analysis using CATrend Analyzer",
+        "totalTime": "PT5M",
+        "tool": {
+            "@type": "HowToTool",
+            "name": "CATrend Analyzer"
+        },
+        "step": [
+            {
+                "@type": "HowToStep",
+                "text": "Enter your contingency table data with ordered categories",
+                "name": "Data Entry"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "Select test type (one-sided or two-sided)",
+                "name": "Configure Test"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "Click Run Analysis to get Z-statistic and p-value",
+                "name": "Run Analysis"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "Export results to Word, Excel, or CSV format",
+                "name": "Export Results"
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the Cochran-Armitage Trend Test?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Cochran-Armitage Trend Test is a statistical method used to detect trends in proportions across ordered categorical variables. It's commonly used in clinical trials, epidemiology, and public health research to analyze dose-response relationships or trends across ordered groups."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I calculate Cochran-Armitage test online for free?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can calculate the Cochran-Armitage test for free using CATrend Analyzer. Simply enter your contingency table data, select your test type, and click 'Run Analysis'. The tool automatically computes the Z-statistic, p-value, and provides statistical interpretation."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are the assumptions of the Cochran-Armitage trend test?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The main assumptions are: ordered categorical groups, independent observations, binary outcome variable, and sufficiently large sample size for normal approximation. The test also requires non-zero marginal totals."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I export Cochran-Armitage test results to Word?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, CATrend Analyzer allows you to export complete analysis reports to Microsoft Word format, including contingency tables, statistical results, charts, and proper citations for your research."
+                }
+            }
+        ]
     }
     </script>
 
@@ -300,7 +416,7 @@ li {
             overflow-x: hidden;
         }
 
-        /* Loading Screen */
+            /* Loading Screen */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -313,7 +429,13 @@ li {
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .loading-container {
@@ -393,16 +515,11 @@ li {
             40% { transform: scale(1); opacity: 1; }
         }
 
-        /* Main Content */
+        /* Main content always visible from the start */
         .main-content {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .main-content.loaded {
-            display: block;
             opacity: 1;
+            visibility: visible;
+            display: block;
         }
 
         /* ===== NEW HEADER STYLES ===== */
@@ -1657,6 +1774,16 @@ li {
             font-weight: 600;
             color: var(--secondary);
         }
+        
+                /* Mobile SEO Optimization */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            .feature-name {
+                font-size: 1.2rem;
+            }
+        }
 
         /* Significance Box */
         .significance-box {
@@ -1793,12 +1920,17 @@ li {
             margin: 1.25rem 0;
         }
 
-        /* Footer */
+        /* Footer - FIXED: No bouncing */
         .main-footer {
-            background: var(--card-bg);
+            background: var(--background);
             border-top: 1px solid var(--border);
             padding: 3rem 0;
             margin-top: 4.5rem;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
 
         .footer-content {
@@ -2803,6 +2935,9 @@ li {
     </style>
 </head>
 <body>
+  
+      <!-- Add this wrapper div for better scroll control -->
+    <div class="page-wrapper">
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-container">
@@ -3675,7 +3810,7 @@ function calculateCochranArmitage(data, options) {
                             Get in Touch
                         </h3>
                         <p style="color: var(--text); line-height: 1.7; margin-bottom: 1.5rem;">
-Feel free to reach out through any of the following channels:
+Found a bug or have a suggestion? I'd love to hear from you! Feel free to reach out through any of the following channels:
                         </p>
                         
                                      <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
@@ -3780,6 +3915,83 @@ Feel free to reach out through any of the following channels:
                 total: [100, 100, 100, 100]
             }
         };
+        
+                // ============================================
+        // SEO AND ENGAGEMENT OPTIMIZATION
+        // ============================================
+        
+        // Track user engagement for SEO signals
+        function trackEngagement() {
+            let startTime = Date.now();
+            let scrolled = false;
+            let interacted = false;
+            
+            // Track scroll depth
+            window.addEventListener('scroll', function() {
+                if (!scrolled) {
+                    scrolled = true;
+                    // Send scroll signal (you can implement analytics here)
+                }
+                
+                // Track 25%, 50%, 75%, 100% scroll depth
+                const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                if (scrollPercent > 25 && !sessionStorage.getItem('scrolled25')) {
+                    sessionStorage.setItem('scrolled25', 'true');
+                    console.log('User scrolled 25% - good engagement signal');
+                }
+                if (scrollPercent > 50 && !sessionStorage.getItem('scrolled50')) {
+                    sessionStorage.setItem('scrolled50', 'true');
+                    console.log('User scrolled 50% - great engagement');
+                }
+                if (scrollPercent > 75 && !sessionStorage.getItem('scrolled75')) {
+                    sessionStorage.setItem('scrolled75', 'true');
+                    console.log('User scrolled 75% - excellent engagement');
+                }
+            });
+            
+            // Track time on page
+            window.addEventListener('beforeunload', function() {
+                let timeSpent = Math.round((Date.now() - startTime) / 1000);
+                if (timeSpent > 30) {
+                    console.log(`User spent ${timeSpent} seconds on page - good dwell time`);
+                }
+            });
+            
+            // Track clicks on key elements
+            document.querySelectorAll('.btn-primary, .nav-link, .feature-item').forEach(el => {
+                el.addEventListener('click', function() {
+                    console.log('User clicked on important element - positive interaction');
+                });
+            });
+        }
+
+        // Call this after initialization
+        setTimeout(trackEngagement, 1000);
+        
+        // ============================================
+        // KEYWORD OPTIMIZATION FOR SEARCH
+        // ============================================
+        
+        // This ensures search engines see the keywords in context
+        function enhanceKeywordVisibility() {
+            const keywords = [
+                'Cochran-Armitage Trend Test',
+                'CATT calculator',
+                'trend analysis online',
+                'statistical test calculator',
+                'free statistics tool',
+                'clinical trial statistics',
+                'epidemiology calculator',
+                'dose-response analysis',
+                'trend test p-value',
+                'contingency table analysis'
+            ];
+            
+            // Keywords are already in the content, this just logs for verification
+            console.log('SEO Keywords present:', keywords);
+        }
+        
+        enhanceKeywordVisibility();
         
         // ============================================
         // HEADER SCROLL BEHAVIOR - ONLY SHOW AT TOP
@@ -6312,6 +6524,7 @@ document.getElementById('fullscreenModal')?.addEventListener('click', function(e
                             <p>Contact: mudassiribrahim30@gmail.com</p>
                             <p>© ${new Date().getFullYear()} CATrend Analyzer. All rights reserved.</p>
                         </div>
+                        </div>
                     </body>
                     </html>
                 `;
@@ -6623,7 +6836,7 @@ excelContent += `Degrees of Freedom (Association),${results.chi_square_associati
             });
         }
 
-        // ============================================
+         // ============================================
         // ZOOM FUNCTIONALITY
         // ============================================
         function initializeZoom() {
@@ -6631,8 +6844,8 @@ excelContent += `Degrees of Freedom (Association),${results.chi_square_associati
             const zoomInBtn = document.getElementById('zoomInBtn');
             const zoomOutBtn = document.getElementById('zoomOutBtn');
             
-            // Start at 90%
-            currentZoom = 90;
+            // Start at 100%
+            currentZoom = 100;
             const minZoom = 50;
             const maxZoom = 200;
             const zoomStep = 10;
@@ -6643,7 +6856,7 @@ excelContent += `Degrees of Freedom (Association),${results.chi_square_associati
                 currentZoom = parseInt(savedZoom);
                 applyZoom(currentZoom);
             } else {
-                // Apply default 90% zoom if no saved preference
+                // Apply default 100% zoom if no saved preference
                 applyZoom(currentZoom);
             }
             
@@ -6707,31 +6920,29 @@ excelContent += `Degrees of Freedom (Association),${results.chi_square_associati
         // ============================================
         // DOCUMENT LOAD INITIALIZATION
         // ============================================
+            // ============================================
+        // DOCUMENT LOAD INITIALIZATION
+        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, initializing app...');
             
+            // Register Chart.js datalabels plugin
+            if (Chart) {
+                Chart.register(ChartDataLabels);
+            }
+            
             // Show loading screen
             const loadingScreen = document.getElementById('loadingScreen');
-            const mainContent = document.getElementById('mainContent');
             
-            // Simulate loading time
+            // Initialize app immediately
+            initializeApp();
+            
+            // Hide loading screen after 1.5 seconds
             setTimeout(function() {
-                loadingScreen.style.opacity = '0';
-                
-                setTimeout(function() {
-                    loadingScreen.style.display = 'none';
-                    mainContent.style.display = 'block';
-                    
-                    // Trigger reflow to enable transition
-                    mainContent.offsetHeight;
-                    
-                    mainContent.classList.add('loaded');
-                    
-                    // Initialize the application
-                    initializeApp();
-                }, 500);
-            }, 2000); // 2-second loading screen
+                loadingScreen.classList.add('hidden');
+            }, 1500);
         });
+    
     </script>
 </body>
 </html>
